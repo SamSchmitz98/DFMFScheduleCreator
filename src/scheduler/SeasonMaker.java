@@ -16,59 +16,62 @@ public class SeasonMaker {
 		schedulestring = "game_id,week,home_team_id,home_conference_id,away_team_id,away_conference_id,Conference";
 	}
 
+	boolean getNextConferenceGame(Team[] teams, Conference curconf, Team[][] conferenceschedule, int team, int week, ArrayList<Team> opponents) {
+		printConferenceSchedule(conferenceschedule, curconf);
+		if (week == weeks) {
+			team++;
+			week = 0;
+			//printConferenceSchedule(conferenceschedule, curconf); // For debugging
+		}
+		if (team == curconf.numTeams()) {
+			return true;
+		}
+		if (week % (curconf.numTeams() - 1) == 0) {
+			opponents = getOpponents(curconf.getTeam(team), curconf);
+			for (int k = week % (curconf.numTeams() - 1); (k < (curconf.numTeams() - 1) && k + week < weeks); k++) {
+				if (conferenceschedule[k + week][team] != null) {
+					opponents.remove(conferenceschedule[k + week][team]);
+				}
+			}
+		}
+		if (conferenceschedule[week][team] == null) {
+			int tempopponent = random.nextInt(opponents.size());
+			int l;
+			for (l = 0; l < opponents.size(); l++) {
+				tempopponent++;
+				tempopponent %= opponents.size();
+				if (week > 0 && conferenceschedule[week - 1][team] == opponents.get(tempopponent)) {
+					continue;
+				}
+				if (week < weeks - 1 && conferenceschedule[week + 1][team] == opponents.get(tempopponent)) {
+					continue;
+				}
+				if (conferenceschedule[week][curconf.getTeamID(opponents.get(tempopponent))] != null) {
+					continue;
+				}
+				conferenceschedule[week][team] = opponents.remove(tempopponent); // schedule game
+				conferenceschedule[week][curconf.getTeamID(conferenceschedule[week][team])] = curconf.getTeam(team);
+				if (!getNextConferenceGame(teams, curconf, conferenceschedule, team, week+1, opponents)) {
+					opponents.add(tempopponent, conferenceschedule[week][team]);
+					conferenceschedule[week][team] = null;
+					conferenceschedule[week][curconf.getTeamID(opponents.get(tempopponent))] = null;
+				} else {
+					return true;
+				}
+			}
+			if (conferenceschedule[week][team] == null) {
+				return false;
+			}
+		} 
+		return getNextConferenceGame(teams, curconf, conferenceschedule, team, week+1, opponents);
+	}
+
 	void generateConferenceOnlySeason(Team[] teams, Conference[] conferences) {
-		ArrayList<Team> opponents = new ArrayList<Team>();
-		for (int i = 1; i < conferences.length; i++) { //for each conference
+		for (int i = 1; i < conferences.length; i++) { // for each conference
+			ArrayList<Team> opponents = new ArrayList<Team>();
 			Conference curconf = conferences[i];
 			Team[][] conferenceschedule = new Team[weeks][curconf.numTeams()];
-			for (int j = 0; j < curconf.numTeams(); j++) { //for each team in conference
-				for (int week = 0; week < weeks; week++) { //for each week
-					if (week % (curconf.numTeams() - 1) == 0) { //this gets list of opponents so everyone is played once before repeats
-						opponents = getOpponents(curconf.getTeam(j), curconf);
-						for (int k = week % (curconf.numTeams() - 1); (k < (curconf.numTeams() - 1)
-								&& k + week < weeks); k++) {
-							if (conferenceschedule[k + week][j] != null) {
-								opponents.remove(conferenceschedule[k + week][j]);
-							}
-						}
-					}
-					if (opponents.isEmpty()) { //if everyone has been played, loop
-						continue;
-					}
-					if (conferenceschedule[week][j] == null) { 
-						int tempopponent = random.nextInt(opponents.size());
-						int l;
-						boolean flag = false;
-						for (l = 0; l < opponents.size(); l++) {
-							tempopponent += l;
-							tempopponent %= opponents.size();
-							if (week > 0 && conferenceschedule[week - 1][j] == opponents.get(tempopponent)) {//ensure no team plays twice in a row
-								continue;
-							}
-							if (week < weeks - 1 && conferenceschedule[week + 1][j] == opponents.get(tempopponent)) {//ensure no team plays twice in a row
-								continue;
-							}
-							if (conferenceschedule[week][curconf.getTeamID(opponents.get(tempopponent))] != null) {//ensure a team isn't scheduled against a team that already has a game
-								continue;
-							}
-							for (int k = 0; k < curconf.numTeams(); k++) {
-								if (conferenceschedule[week][k] == opponents.get(tempopponent)) { //ensure another team hasn't scheduled them already
-									flag = true;
-									break;
-								}
-							}
-							if (flag == true) {
-								continue;
-							}
-							conferenceschedule[week][j] = opponents.remove(tempopponent); //schedule game
-							conferenceschedule[week][curconf.getTeamID(conferenceschedule[week][j])] = curconf
-									.getTeam(j);
-							break;
-						}
-					}
-				}
-				//printConferenceSchedule(conferenceschedule, curconf);
-			}
+			getNextConferenceGame(teams, curconf, conferenceschedule, 0, 0, opponents);
 			printConferenceSchedule(conferenceschedule, curconf);
 			arrayToSchedule(conferenceschedule, curconf);
 		}
@@ -99,29 +102,31 @@ public class SeasonMaker {
 	}
 
 	/**
-	 *  Print schedule for debugging purposes
+	 * Print schedule for debugging purposes
+	 * 
 	 * @param schedule
 	 * @param conference
 	 */
 	void printConferenceSchedule(Team[][] schedule, Conference conference) {
+		String str = "";
 		for (int i = 0; i < schedule[0].length; i++) {
-			System.out.print(String.format("%1$" + 25 + "s", conference.getTeam(i).getName() + "  "));
+			str += String.format("%1$" + 25 + "s", conference.getTeam(i).getName() + "  ");
 		}
-		System.out.println("");
+		str += "\n";
 		for (int i = 0; i < 25 * schedule[0].length; i++) {
-			System.out.print("_");
+			str += "_";
 		}
-		System.out.println("");
+		str += "\n";
 		for (int i = 0; i < schedule.length; i++) {
 			for (int j = 0; j < schedule[i].length; j++) {
-				System.out.print((schedule[i][j] == null ? "------------------------|"
-						: String.format("%1$" + 25 + "s", schedule[i][j].getName() + "|")));
+				str += (schedule[i][j] == null ? "------------------------|"
+						: String.format("%1$" + 25 + "s", schedule[i][j].getName() + "|"));
 			}
-			System.out.println("");
+			str += "\n";
 		}
 
-		System.out.println("");
-		System.out.println("");
+		str += "\n\n";
+		System.out.print(str);
 	}
 
 	/*
@@ -136,7 +141,7 @@ public class SeasonMaker {
 		}
 		return opponents;
 	}
-
+	
 	String getSeason() {
 		return schedulestring;
 	}
