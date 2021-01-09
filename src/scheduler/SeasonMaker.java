@@ -8,8 +8,10 @@ import java.util.Stack;
 public class SeasonMaker {
 
 	int weeks;
+	int retryflag;
 	String schedulestring;
 	Random random = new Random(1);
+	
 
 	SeasonMaker(int weeks) {
 		this.weeks = weeks;
@@ -17,7 +19,10 @@ public class SeasonMaker {
 	}
 
 	boolean getNextConferenceGame(Team[] teams, Conference curconf, Team[][] conferenceschedule, int team, int week, ArrayList<Team> opponents) {
-		printConferenceSchedule(conferenceschedule, curconf);
+		//printConferenceSchedule(conferenceschedule, curconf);
+		if (retryflag > 5000000) {
+			return false;
+		}
 		if (week == weeks) {
 			team++;
 			week = 0;
@@ -55,6 +60,10 @@ public class SeasonMaker {
 					opponents.add(tempopponent, conferenceschedule[week][team]);
 					conferenceschedule[week][team] = null;
 					conferenceschedule[week][curconf.getTeamID(opponents.get(tempopponent))] = null;
+					retryflag++;
+					if (retryflag > 5000000) {
+						return false;
+					}
 				} else {
 					return true;
 				}
@@ -68,10 +77,30 @@ public class SeasonMaker {
 
 	void generateConferenceOnlySeason(Team[] teams, Conference[] conferences) {
 		for (int i = 1; i < conferences.length; i++) { // for each conference
+			retryflag = 0;
 			ArrayList<Team> opponents = new ArrayList<Team>();
 			Conference curconf = conferences[i];
 			Team[][] conferenceschedule = new Team[weeks][curconf.numTeams()];
-			getNextConferenceGame(teams, curconf, conferenceschedule, 0, 0, opponents);
+			while (!getNextConferenceGame(teams, curconf, conferenceschedule, 0, 0, opponents)) {
+				retryflag = 0;
+				conferenceschedule = new Team[weeks][curconf.numTeams()];
+			}
+			printConferenceSchedule(conferenceschedule, curconf);
+			arrayToSchedule(conferenceschedule, curconf);
+		}
+	}
+
+	//TODO
+	void quickGenerateConferenceOnlySeason(Team[] teams, Conference[] conferences) {
+		for (int i = 1; i < conferences.length; i++) { // for each conference
+			ArrayList<Team> opponents = new ArrayList<Team>();
+			Conference curconf = conferences[i];
+			Team[][] conferenceschedule = new Team[weeks][curconf.numTeams()];
+			for (int j = 0; j < weeks; j++) {
+				for (int k = 0; k < curconf.numTeams(); k++) {
+					conferenceschedule[j][k] = curconf.getTeam(curconf.numTeams()-((k+j)%curconf.numTeams()+1));
+				}
+			}
 			printConferenceSchedule(conferenceschedule, curconf);
 			arrayToSchedule(conferenceschedule, curconf);
 		}
