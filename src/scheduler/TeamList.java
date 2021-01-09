@@ -47,7 +47,7 @@ public class TeamList {
 			teamxml = new File(foldername + "/" + list[i], "teamdata.xml");
 			try {
 				Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(teamxml);
-				teams[i-2] = new Team(i-2, doc.getElementsByTagName("SchoolName").item(0).getTextContent(), Integer.parseInt(doc.getElementsByTagName("LeagueDivision").item(0).getTextContent()));
+				teams[i-2] = new Team(i-2, doc.getElementsByTagName("SchoolName").item(0).getTextContent(), doc.getElementsByTagName("NameShort").item(0).getTextContent(), Integer.parseInt(doc.getElementsByTagName("LeagueDivision").item(0).getTextContent()));
 				conferences[teams[i-2].getConferenceID()].addTeam(teams[i-2]);
 			} catch (SAXException e) {
 				// TODO Auto-generated catch block

@@ -46,10 +46,14 @@ public class Scheduler extends Frame implements ActionListener{
 	    group.add(teams27);
 	    group.add(teams32);
 	    group.add(teams130);
-	    add(new Label("Enter number of weeks"));
-	    final TextField weekamount = new TextField("12");
-	    weekamount.setEditable(true);
-	    add(weekamount);
+	    add(new Label("Enter number of weeks of conference play"));
+	    final TextField confweekamount = new TextField("9");
+	    confweekamount.setEditable(false);
+	    add(confweekamount);
+	    add(new Label("Enter number of weeks of conference play"));
+	    final TextField nonconfweekamount = new TextField("3");
+	    nonconfweekamount.setEditable(false);
+	    add(nonconfweekamount);
 	    add(new Label("Enter season number"));
 	    final TextField season = new TextField("1");
 	    season.setEditable(true);
@@ -58,7 +62,7 @@ public class Scheduler extends Frame implements ActionListener{
 		Button b = new Button("Generate");  
 		b.setBounds(30,250,80,30);// setting button position  
 		add(b);//adding button into frame  
-		setSize(300,180);//frame size 300 width and 180 height  
+		setSize(350,180);//frame size
 		setTitle("Season Generator");  
 		setVisible(true);
 		
@@ -72,11 +76,11 @@ public class Scheduler extends Frame implements ActionListener{
 					teamamount = 32;
 				}
 				TeamList teamlist = new TeamList(teamamount);
-				SeasonMaker sm = new SeasonMaker(Integer.parseInt(weekamount.getText()));
+				SeasonMaker sm = new SeasonMaker(Integer.parseInt(confweekamount.getText()), Integer.parseInt(nonconfweekamount.getText()));
 				Team[] teams = teamlist.teams;
 				Conference[] conferences = teamlist.conferences;
 
-				sm.generateConferenceOnlySeason(teams, conferences);
+				sm.generateRegularSeason(teams, conferences);
 				File f = new File("Schedules" + teamamount + "\\schedule_template_" + (Integer.parseInt(season.getText())-1) + ".csv");
 				try {
 					f.createNewFile();
