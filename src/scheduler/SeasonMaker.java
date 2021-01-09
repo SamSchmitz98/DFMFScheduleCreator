@@ -12,7 +12,7 @@ public class SeasonMaker {
 	int retryflag;
 	int retryflag1;
 	String schedulestring;
-	Random random = new Random(1);
+	Random random = new Random();
 
 	SeasonMaker(int confweeks, int nonconweeks) {
 		this.confweeks = confweeks;
@@ -139,7 +139,9 @@ public class SeasonMaker {
 
 	void generateRegularSeason(Team[] teams, Conference[] conferences) {
 		Team[][] schedule = new Team[confweeks + nonconweeks][teams.length];
-		ArrayList<Team> confopponents = new ArrayList<Team>();
+		while (!getNextNonConGame(teams, conferences, schedule, 1, 0)) {
+			schedule = new Team[confweeks + nonconweeks][teams.length];
+		}
 		for (int i = 1; i < conferences.length; i++) { // for each conference
 			retryflag = 0;
 			ArrayList<Team> opponents = new ArrayList<Team>();
@@ -154,10 +156,6 @@ public class SeasonMaker {
 					schedule[j + nonconweeks][curconf.getTeam(k).getID()] = conferenceschedule[j][k];
 				}
 			}
-		}
-		while (!getNextNonConGame(teams, conferences, schedule, 1, 0)) {
-			retryflag1 = 0;
-			schedule = new Team[confweeks][teams.length];
 		}
 		printSchedule(schedule, teams);
 		arrayToSchedule(schedule, teams);

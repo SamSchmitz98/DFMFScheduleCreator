@@ -29,7 +29,7 @@ public class Scheduler extends Frame implements ActionListener{
 		});
 		final JRadioButton teams27 = new JRadioButton("27 Teams");
 	    teams27.setActionCommand("27 Teams");
-	    teams27.setSelected(true);
+	    teams27.setSelected(false);
 	    teams27.setBounds(30, 60, 150, 30);
 	    add(teams27);
 		final JRadioButton teams32 = new JRadioButton("32 Teams");
@@ -39,7 +39,7 @@ public class Scheduler extends Frame implements ActionListener{
 	    add(teams32);
 		JRadioButton teams130 = new JRadioButton("130 Teams");
 	    teams130.setActionCommand("130 Teams");
-	    teams130.setSelected(false);
+	    teams130.setSelected(true);
 	    teams130.setBounds(30, 120, 150, 30);
 	    add(teams130);
 	    ButtonGroup group = new ButtonGroup();
@@ -48,11 +48,11 @@ public class Scheduler extends Frame implements ActionListener{
 	    group.add(teams130);
 	    add(new Label("Enter number of weeks of conference play"));
 	    final TextField confweekamount = new TextField("9");
-	    confweekamount.setEditable(false);
+	    confweekamount.setEditable(true);
 	    add(confweekamount);
 	    add(new Label("Enter number of weeks of conference play"));
 	    final TextField nonconfweekamount = new TextField("3");
-	    nonconfweekamount.setEditable(false);
+	    nonconfweekamount.setEditable(true);
 	    add(nonconfweekamount);
 	    add(new Label("Enter season number"));
 	    final TextField season = new TextField("1");
