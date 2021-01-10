@@ -76,11 +76,11 @@ public class Scheduler extends Frame implements ActionListener{
 					teamamount = 32;
 				}
 				TeamList teamlist = new TeamList(teamamount);
-				SeasonMaker sm = new SeasonMaker(Integer.parseInt(confweekamount.getText()), Integer.parseInt(nonconfweekamount.getText()));
 				Team[] teams = teamlist.teams;
 				Conference[] conferences = teamlist.conferences;
+				SeasonMaker sm = new SeasonMaker(teams, conferences, Integer.parseInt(confweekamount.getText()), Integer.parseInt(nonconfweekamount.getText()));
 
-				sm.generateRegularSeason(teams, conferences);
+				sm.generateRegularSeason();
 				File f = new File("Schedules" + teamamount + "\\schedule_template_" + (Integer.parseInt(season.getText())-1) + ".csv");
 				try {
 					f.createNewFile();
