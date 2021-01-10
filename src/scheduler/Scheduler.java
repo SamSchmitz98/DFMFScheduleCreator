@@ -81,7 +81,10 @@ public class Scheduler extends Frame implements ActionListener{
 				Conference[] conferences = teamlist.conferences;
 				ArrayList<Matchup> matchups = new ArrayList<Matchup>();
 				matchups.add(new Matchup(11, teams[43], teams[44]));
-				matchups.add(new Matchup(11, teams[42], teams[45]));
+				matchups.add(new Matchup(11, teams[46], teams[45]));
+				matchups.add(new Matchup(2, teams[43], teams[44]));
+				matchups.add(new Matchup(2, teams[46], teams[45]));
+				//matchups.add(new Matchup(11, teams[42], teams[45]));
 				SeasonMaker sm = new SeasonMaker(teams, conferences, Integer.parseInt(confweekamount.getText()), Integer.parseInt(nonconfweekamount.getText()), matchups);
 
 				sm.generateRegularSeason();
