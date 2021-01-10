@@ -16,14 +16,25 @@ public class SeasonMaker {
 	Team[] teams;
 	Conference[] conferences;
 	Team[][] schedule;
+	ArrayList<Matchup> matchups;
 
-	SeasonMaker(Team[] teams, Conference[] conferences, int confweeks, int nonconweeks) {
+	SeasonMaker(Team[] teams, Conference[] conferences, int confweeks, int nonconweeks, ArrayList<Matchup> matchups) {
 		this.teams = teams;
 		this.conferences = conferences;
 		this.confweeks = confweeks;
 		this.nonconweeks = nonconweeks;
+		this.matchups = matchups;
 		schedule = new Team[confweeks + nonconweeks][teams.length];
+		addRequestedMatchups();
+		printSchedule();
 		schedulestring = "game_id,week,home_team_id,home_conference_id,away_team_id,away_conference_id,Conference";
+	}
+	
+	void addRequestedMatchups() {
+		for (Matchup curmatchup : matchups) {
+			schedule[curmatchup.getWeek()][curmatchup.getHome().getID()] = curmatchup.getAway();
+			schedule[curmatchup.getWeek()][curmatchup.getAway().getID()] = curmatchup.getHome();
+		}
 	}
 
 	boolean getNextConferenceGame(Conference curconf, int inteam, int week,
@@ -147,10 +158,6 @@ public class SeasonMaker {
 	void generateRegularSeason() {
 		do {
 			schedule = new Team[confweeks + nonconweeks][teams.length];
-			schedule[11][43] = teams[44];
-			schedule[11][44] = teams[43];
-			schedule[11][42] = teams[45];
-			schedule[11][45] = teams[42];
 		} while (!getNextNonConGame(1, 0));
 		for (int i = 1; i < conferences.length; i++) { // for each conference
 			retryflag = 0;
@@ -172,7 +179,7 @@ public class SeasonMaker {
 				}
 			}
 		}
-		printSchedule();
+		//printSchedule();
 		arrayToSchedule();
 	}
 

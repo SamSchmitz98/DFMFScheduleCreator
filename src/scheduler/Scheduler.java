@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
@@ -78,7 +79,10 @@ public class Scheduler extends Frame implements ActionListener{
 				TeamList teamlist = new TeamList(teamamount);
 				Team[] teams = teamlist.teams;
 				Conference[] conferences = teamlist.conferences;
-				SeasonMaker sm = new SeasonMaker(teams, conferences, Integer.parseInt(confweekamount.getText()), Integer.parseInt(nonconfweekamount.getText()));
+				ArrayList<Matchup> matchups = new ArrayList<Matchup>();
+				matchups.add(new Matchup(11, teams[43], teams[44]));
+				matchups.add(new Matchup(11, teams[42], teams[45]));
+				SeasonMaker sm = new SeasonMaker(teams, conferences, Integer.parseInt(confweekamount.getText()), Integer.parseInt(nonconfweekamount.getText()), matchups);
 
 				sm.generateRegularSeason();
 				File f = new File("Schedules" + teamamount + "\\schedule_template_" + (Integer.parseInt(season.getText())-1) + ".csv");
