@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 public class Scheduler extends Frame implements ActionListener {
@@ -60,11 +62,15 @@ public class Scheduler extends Frame implements ActionListener {
 		final TextField confweekamount = new TextField("9");
 		confweekamount.setEditable(true);
 		container.add(confweekamount);
-		container.add(new Label("Enter number of weeks of conference play"));
+		container.add(new Label("Enter number of weeks of nonconference play"));
 		final TextField nonconfweekamount = new TextField("3");
 		nonconfweekamount.setEditable(true);
 		container.add(nonconfweekamount);
-		container.add(new Label("                 Enter season number"));
+		container.add(new Label("Enter number of bye weeks     "));
+		final TextField byeweekamount = new TextField("3");
+		nonconfweekamount.setEditable(true);
+		container.add(byeweekamount);
+		container.add(new Label("                        Enter season number"));
 		final TextField season = new TextField("1");
 		season.setEditable(true);
 		container.add(season);
@@ -154,6 +160,14 @@ public class Scheduler extends Frame implements ActionListener {
 
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < awayteams.size(); i++) {
+					if (Integer.parseInt(weektexts.get(i).getText()) > Integer.parseInt(confweekamount.getText()) +
+							Integer.parseInt(nonconfweekamount.getText()) + Integer.parseInt(byeweekamount.getText())) {
+						JOptionPane.showMessageDialog(new JFrame(),
+		                        "Week is outside range for matchup " + (i+1));
+						return;
+					}
+				}
 				int teamamount = 130;
 				if (teams27.isSelected()) {
 					teamamount = 27;
@@ -175,11 +189,16 @@ public class Scheduler extends Frame implements ActionListener {
 						if (teams[j].getName().equals(hometeams.get(i).getSelectedItem())){
 							home = teams[j];
 						}
+						if (home == away) {
+							JOptionPane.showMessageDialog(new JFrame(),
+			                        "Teams cannot be the same for matchup " + (i+1));
+							return;
+						}
 					}
 					matchups.add(new Matchup(Integer.parseInt(weektexts.get(i).getText())-1, away, home));
 				}
 				SeasonMaker sm = new SeasonMaker(teams, conferences, Integer.parseInt(confweekamount.getText()),
-						Integer.parseInt(nonconfweekamount.getText()), matchups);
+						Integer.parseInt(nonconfweekamount.getText()), Integer.parseInt(byeweekamount.getText()), matchups);
 
 				sm.generateRegularSeason();
 				File f = new File("Schedules" + teamamount + "\\schedule_template_"
@@ -192,6 +211,8 @@ public class Scheduler extends Frame implements ActionListener {
 				} catch (IOException exc) {
 
 				}
+				JOptionPane.showMessageDialog(new JFrame(),
+                        "Generation Done");
 			}
 		});
 	}
