@@ -15,7 +15,7 @@ public class SeasonMaker {
 	int retryflag;
 	int retryflag1;
 	String schedulestring;
-	Random random = new Random(1);
+	Random random = new Random();
 	Team[] teams;
 	Conference[] conferences;
 	Team[][] schedule;
@@ -152,18 +152,6 @@ public class SeasonMaker {
 										incrementByeWeekCount(teamop);
 										break;
 									}
-//									for (int k = 1; k < weeks - week; k++) {
-//										if (schedule[week + k][team] == null && schedule[week + k][teamop] == null) {
-//											schedule[week + k][team] = schedule[week][team];
-//											schedule[week][team] = BYE;
-//											incrementByeWeekCount(team);
-//											schedule[week + k][teamop] = schedule[week][teamop];
-//											schedule[week][teamop] = BYE;
-//											incrementByeWeekCount(teamop);
-//											break;
-//										}
-//									}
-//									break;
 								}
 							} else {
 								Conference curconf = conferences[teams[team].getConferenceID()];
@@ -207,8 +195,8 @@ public class SeasonMaker {
 
 	boolean getNextConferenceGame(Conference curconf, int inteam, int week, ArrayList<Team> opponents,
 			int conferencegamecounter) {
-		// printConferenceSchedule(curconf); // For debugging
-		if (retryflag > 50000) {
+//		printConferenceSchedule(curconf); // For debugging
+		if (retryflag > 5000) {
 			return false;
 		}
 		if (week == weeks) {
@@ -259,7 +247,7 @@ public class SeasonMaker {
 					if (opponents.get(tempopponent).getID() != 0)
 						schedule[week][opponents.get(tempopponent).getID()] = null;
 					retryflag++;
-					if (retryflag > 50000) {
+					if (retryflag > 5000) {
 						return false;
 					}
 				} else {
@@ -355,18 +343,8 @@ public class SeasonMaker {
 		}
 		addByeWeeks();
 		if (confweeks != 0) {
-			for (int i = 1; i < conferences.length; i++) {
-				for (int week = 0; week < weeks; week++) {
-					int counter = 0;
-					for (int j = 0; j < conferences[i].numTeams(); j++) {
-						if (schedule[week][conferences[i].getTeam(j).getID()] != null && schedule[week][conferences[i].getTeam(j).getID()].getName() == "Bye") {
-							counter++;
-						}
-					}
-					System.out.println("Conference " + i + " had " + counter + " bye weeks in week" + week);
-				}
-			}
 			for (int i = 1; i < conferences.length; i++) { // for each conference
+				int count = 0;
 				System.out.println("Conference " + i);
 				retryflag = 0;
 				ArrayList<Team> opponents = new ArrayList<Team>();
@@ -378,6 +356,11 @@ public class SeasonMaker {
 					}
 				}
 				while (!getNextConferenceGame(curconf, 0, 0, opponents, 0)) {
+					count++;
+					if (count == 5) {
+						generateRegularSeason();
+						return;
+					}
 					retryflag = 0;
 					schedule = new Team[weeks][teams.length];
 					for (int j = 0; j < schedule.length; j++) {
