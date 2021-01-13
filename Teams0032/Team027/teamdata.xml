@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TeamData>
+  <Team>
+    <ID>27</ID>
+    <CanEdit>0</CanEdit>
+    <City>TEXAS</City>
+    <ProvState>TX</ProvState>
+    <NickName>MUSTANGS</NickName>
+    <NameShort>TEX</NameShort>
+    <SchoolName>TEXAS</SchoolName>
+    <YearEstablished>2020</YearEstablished>
+    <ChampionshipCount>0</ChampionshipCount>
+    <CoachID>000</CoachID>
+    <LogoID>295</LogoID>
+    <MainColor>003594FF</MainColor>
+    <SecondColor>869397FF</SecondColor>
+    <StadiumID>8</StadiumID>
+    <LeagueDivision>2</LeagueDivision>
+    <LastYearsRecord>5-7-0-299-376</LastYearsRecord>
+  </Team>
+  <HomeUniform>
+    <Caption />
+    <CaptionColor>FFFFFFFF</CaptionColor>
+    <CaptionStroke>1</CaptionStroke>
+    <CaptionStrokeColor>FFFFFFFF</CaptionStrokeColor>
+    <Colar>00355EFF</Colar>
+    <ColarStroke>00355EFF</ColarStroke>
+    <FontID>0</FontID>
+    <Jersey>00355EFF</Jersey>
+    <NumberColor>FFFFFFFF</NumberColor>
+    <NumberStroke>1</NumberStroke>
+    <NumberStrokeColor>869397FF</NumberStrokeColor>
+    <PantInnerStripe>FFFFFFFF</PantInnerStripe>
+    <PantOuterStripe>003594FF</PantOuterStripe>
+    <Pants>869397FF</Pants>
+    <Sleeve>00355EFF</Sleeve>
+    <SleeveNumbers>0</SleeveNumbers>
+    <SleeveStripe1>869397FF</SleeveStripe1>
+    <SleeveStripe2>00355EFF</SleeveStripe2>
+    <Sock>FFFFFFFF</Sock>
+    <SockBand>003594FF</SockBand>
+    <SockStripes>003594FF</SockStripes>
+  </HomeUniform>
+  <AwayUniform>
+    <Caption />
+    <CaptionColor>003594FF</CaptionColor>
+    <CaptionStroke>1</CaptionStroke>
+    <CaptionStrokeColor>003594FF</CaptionStrokeColor>
+    <Colar>FFFFFFFF</Colar>
+    <ColarStroke>FFFFFFFF</ColarStroke>
+    <FontID>0</FontID>
+    <Jersey>FFFFFFFF</Jersey>
+    <NumberColor>003594FF</NumberColor>
+    <NumberStroke>1</NumberStroke>
+    <NumberStrokeColor>003594FF</NumberStrokeColor>
+    <PantInnerStripe>FFFFFFFF</PantInnerStripe>
+    <PantOuterStripe>003594FF</PantOuterStripe>
+    <Pants>869397FF</Pants>
+    <Sleeve>FFFFFFFF</Sleeve>
+    <SleeveNumbers>0</SleeveNumbers>
+    <SleeveStripe1>FFFFFFFF</SleeveStripe1>
+    <SleeveStripe2>003594FF</SleeveStripe2>
+    <Sock>FFFFFFFF</Sock>
+    <SockBand>003594FF</SockBand>
+    <SockStripes>003594FF</SockStripes>
+  </AwayUniform>
+  <Helmet>
+    <BaseColor>869397FF</BaseColor>
+    <DoubleStripeColor>003594FF</DoubleStripeColor>
+    <FrontText />
+    <MaskColor>869397FF</MaskColor>
+    <RearText />
+    <SingleStripeColor>FFFFFFFF</SingleStripeColor>
+    <TextColor>000000FF</TextColor>
+    <TextOutline>1</TextOutline>
+    <OutlineColor>000000FF</OutlineColor>
+    <RightLogoID>295</RightLogoID>
+    <RightLogoDirection>1,1</RightLogoDirection>
+    <RightLogoPosition>0,0</RightLogoPosition>
+    <RightLogoSize>1.5,1.5</RightLogoSize>
+    <LeftLogoID>295</LeftLogoID>
+    <LeftLogoDirection>-1,-1</LeftLogoDirection>
+    <LeftLogoPosition>0,0</LeftLogoPosition>
+    <LeftLogoSize>1.5,1.5</LeftLogoSize>
+  </Helmet>
+</TeamData>

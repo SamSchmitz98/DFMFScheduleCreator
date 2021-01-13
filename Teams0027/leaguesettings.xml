@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LeagueData>
+  <League ID="1">
+    <GAMESPERTEAM>8</GAMESPERTEAM>
+  </League>
+  <Divisions>
+    <Div1>
+      <Name>Western Conference</Name>
+      <Rank>1</Rank>
+    </Div1>
+    <Div2>
+      <Name>Ontario Conference</Name>
+      <Rank>2</Rank>
+    </Div2>
+    <Div3>
+      <Name>Quebec Conference</Name>
+      <Rank>3</Rank>
+    </Div3>
+    <Div4>
+      <Name>Atlantic Conference</Name>
+      <Rank>4</Rank>
+    </Div4>
+  </Divisions>
+  <PlayoffGames>
+    <Game>
+      <GameID>1</GameID>
+      <WeekID>2</WeekID>
+      <Name>Western Semi-Final</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>1</DivisionID>
+      <HomeRank>1</HomeRank>
+      <AwayRank>4</AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID />
+    </Game>
+    <Game>
+      <GameID>2</GameID>
+      <WeekID>2</WeekID>
+      <Name>Western Semi-Final</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>1</DivisionID>
+      <HomeRank>2</HomeRank>
+      <AwayRank>3</AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID></AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>3</GameID>
+      <WeekID>3</WeekID>
+      <Name>Western Championship Bowl</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>1</DivisionID>
+      <HomeRank></HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID>1</HomeWinnerGameID>
+      <AwayWinnerGameID>2</AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>4</GameID>
+      <WeekID>1</WeekID>
+      <Name>Ontario Quarter-Final</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>2</DivisionID>
+      <HomeRank>4</HomeRank>
+      <AwayRank>5</AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID />
+    </Game>
+    <Game>
+      <GameID>5</GameID>
+      <WeekID>1</WeekID>
+      <Name>Ontario Quarter-Final</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>2</DivisionID>
+      <HomeRank>3</HomeRank>
+      <AwayRank>6</AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID />
+    </Game>
+    <Game>
+      <GameID>6</GameID>
+      <WeekID>2</WeekID>
+      <Name>Ontario Semi-Final</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>2</DivisionID>
+      <HomeRank>1</HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID>4</AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>7</GameID>
+      <WeekID>2</WeekID>
+      <Name>Ontario Semi-Final</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>2</DivisionID>
+      <HomeRank>2</HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID>5</AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>8</GameID>
+      <WeekID>3</WeekID>
+      <Name>Ontario Championship Bowl</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>2</DivisionID>
+      <HomeRank></HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID>6</HomeWinnerGameID>
+      <AwayWinnerGameID>7</AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>9</GameID>
+      <WeekID>2</WeekID>
+      <Name>Quebec Semi-Final</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>3</DivisionID>
+      <HomeRank>1</HomeRank>
+      <AwayRank>4</AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID></AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>10</GameID>
+      <WeekID>2</WeekID>
+      <Name>Quebec Semi-Final</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>3</DivisionID>
+      <HomeRank>2</HomeRank>
+      <AwayRank>3</AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID></AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>11</GameID>
+      <WeekID>3</WeekID>
+      <Name>Quebec Championship Bowl</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>3</DivisionID>
+      <HomeRank></HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID>9</HomeWinnerGameID>
+      <AwayWinnerGameID>10</AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>12</GameID>
+      <WeekID>2</WeekID>
+      <Name>Atlantic Semi-Final</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>4</DivisionID>
+      <HomeRank>2</HomeRank>
+      <AwayRank>3</AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID></AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>13</GameID>
+      <WeekID>3</WeekID>
+      <Name>Atlantic Championship Bowl</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>4</DivisionID>
+      <HomeRank>1</HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID>12</AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>14</GameID>
+      <WeekID>4</WeekID>
+      <Name>National Semi-Final</Name>
+      <LogoID>013</LogoID>
+      <DivisionID></DivisionID>
+      <HomeRank></HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID>11</HomeWinnerGameID>
+      <AwayWinnerGameID>13</AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>15</GameID>
+      <WeekID>4</WeekID>
+      <Name>National Semi-Final</Name>
+      <LogoID>013</LogoID>
+      <DivisionID></DivisionID>
+      <HomeRank></HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID>3</HomeWinnerGameID>
+      <AwayWinnerGameID>8</AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>16</GameID>
+      <WeekID>5</WeekID>
+      <Name>Canadian University Championship</Name>
+      <LogoID>015</LogoID>
+      <DivisionID></DivisionID>
+      <HomeRank></HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID>14</HomeWinnerGameID>
+      <AwayWinnerGameID>15</AwayWinnerGameID>
+    </Game>
+  </PlayoffGames>
+  <ConferenceChampionshipGames>
+    <Game>
+      <GameID>1</GameID>
+      <WeekID>1</WeekID>
+      <Name>League All Star Game</Name>
+      <LogoID>014</LogoID>
+      <DivisionID>1</DivisionID>
+      <HomeRank>1</HomeRank>
+      <AwayRank>4</AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID />
+    </Game>
+  </ConferenceChampionshipGames>
+  <BowlGames>
+    <Game>
+      <IsAllStarGame>0</IsAllStarGame>
+      <Name>The Rod Pedersen Show Bowl</Name>
+      <LogoID>024</LogoID>
+      <DivisionID></DivisionID>
+      <HomeRank>26</HomeRank>
+      <AwayRank>27</AwayRank>
+    </Game>
+  </BowlGames>
+</LeagueData>

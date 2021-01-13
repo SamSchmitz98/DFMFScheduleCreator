@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LeagueData>
+  <League ID="1">
+    <GAMESPERTEAM>1</GAMESPERTEAM>
+  </League>
+  <Divisions>
+    <Div1>
+      <Name>Division 1</Name>
+      <Rank>1</Rank>
+    </Div1>
+    <Div2>
+      <Name>Division 2</Name>
+      <Rank>2</Rank>
+    </Div2>
+  </Divisions>
+  <PlayoffGames>
+    <Game>
+      <GameID>1</GameID>
+      <WeekID>1</WeekID>
+      <Name>Semi-Final</Name>
+      <LogoID />
+      <DivisionID>1</DivisionID>
+      <HomeRank>2</HomeRank>
+      <AwayRank>3</AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID />
+    </Game>
+    <Game>
+      <GameID>2</GameID>
+      <WeekID>1</WeekID>
+      <Name>Semi-Final</Name>
+      <LogoID />
+      <DivisionID>2</DivisionID>
+      <HomeRank>2</HomeRank>
+      <AwayRank>3</AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID></AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>3</GameID>
+      <WeekID>2</WeekID>
+      <Name>Final</Name>
+      <LogoID />
+      <DivisionID>1</DivisionID>
+      <HomeRank>1</HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID>1</AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>4</GameID>
+      <WeekID>2</WeekID>
+      <Name>Final</Name>
+      <LogoID />
+      <DivisionID>2</DivisionID>
+      <HomeRank>1</HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID />
+      <AwayWinnerGameID>2</AwayWinnerGameID>
+    </Game>
+    <Game>
+      <GameID>5</GameID>
+      <WeekID>3</WeekID>
+      <Name>Championship</Name>
+      <LogoID />
+      <DivisionID></DivisionID>
+      <HomeRank></HomeRank>
+      <AwayRank></AwayRank>
+      <HomeWinnerGameID>3</HomeWinnerGameID>
+      <AwayWinnerGameID>4</AwayWinnerGameID>
+    </Game>
+  </PlayoffGames>
+  <BowlGames>
+    <Game>
+      <IsAllStarGame>1</IsAllStarGame>
+      <Name>All Stars</Name>
+      <LogoID />
+      <DivisionID></DivisionID>
+      <HomeRank></HomeRank>
+      <AwayRank></AwayRank>
+    </Game>
+  </BowlGames>
+</LeagueData>
