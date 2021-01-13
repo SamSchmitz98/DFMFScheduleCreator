@@ -1,10 +1,8 @@
 package scheduler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Stack;
 
 public class SeasonMaker {
 
@@ -15,7 +13,7 @@ public class SeasonMaker {
 	int retryflag;
 	int retryflag1;
 	String schedulestring;
-	Random random = new Random();
+	Random random = new Random(2);
 	Team[] teams;
 	Conference[] conferences;
 	Team[][] schedule;
@@ -345,7 +343,6 @@ public class SeasonMaker {
 		if (confweeks != 0) {
 			for (int i = 1; i < conferences.length; i++) { // for each conference
 				int count = 0;
-				System.out.println("Conference " + i);
 				retryflag = 0;
 				ArrayList<Team> opponents = new ArrayList<Team>();
 				Conference curconf = conferences[i];
@@ -357,7 +354,7 @@ public class SeasonMaker {
 				}
 				while (!getNextConferenceGame(curconf, 0, 0, opponents, 0)) {
 					count++;
-					if (count == 5) {
+					if (count >= 50) {
 						generateRegularSeason();
 						return;
 					}
@@ -384,12 +381,26 @@ public class SeasonMaker {
 			for (int j = 1; j < schedule[i].length; j++) {
 				if (schedule[i][j] != null && schedule[i][j].getID() != 0) {
 					schedulestring += "\n" + counter + "," + (i + 1) + ",";
-					if (counter % 2 == 0) {
-						schedulestring += schedule[i][j].getID() + "," + schedule[i][j].getConferenceID() + ",";
-						schedulestring += teams[j].getID() + "," + teams[j].getConferenceID() + ",";
-					} else {
-						schedulestring += teams[j].getID() + "," + teams[j].getConferenceID() + ",";
-						schedulestring += schedule[i][j].getID() + "," + schedule[i][j].getConferenceID() + ",";
+					boolean matchupflag = false;
+					for (Matchup cur : matchups) {
+						if (cur.getWeek() == i
+								&& (cur.getHome().getID() == j || cur.getHome().getID() == schedule[i][j].getID())
+								&& (cur.getAway().getID() == j || cur.getAway().getID() == schedule[i][j].getID())) {
+							matchupflag = true;
+							schedulestring += cur.getHome().getID() + "," + cur.getHome().getConferenceID() + ",";
+							schedulestring += cur.getAway().getID() + "," + cur.getAway().getConferenceID() + ",";
+							break;
+						}
+					}
+					if (!matchupflag) {
+
+						if (counter % 2 == 0) {
+							schedulestring += schedule[i][j].getID() + "," + schedule[i][j].getConferenceID() + ",";
+							schedulestring += teams[j].getID() + "," + teams[j].getConferenceID() + ",";
+						} else {
+							schedulestring += teams[j].getID() + "," + teams[j].getConferenceID() + ",";
+							schedulestring += schedule[i][j].getID() + "," + schedule[i][j].getConferenceID() + ",";
+						}
 					}
 					schedulestring += (teams[j].getConferenceID() == schedule[i][j].getConferenceID() ? "TRUE"
 							: "FALSE");

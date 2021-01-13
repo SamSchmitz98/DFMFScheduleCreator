@@ -18,9 +18,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
+@SuppressWarnings("serial")
 public class Scheduler extends Frame implements ActionListener {
 
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		Scheduler app = new Scheduler();
 	}
 
@@ -90,7 +92,6 @@ public class Scheduler extends Frame implements ActionListener {
 		setSize(450, 210);// frame size
 		Scrollbar scrollbar = new Scrollbar(Scrollbar.VERTICAL, 0, 210, 0, 210);
 		add(scrollbar, BorderLayout.EAST);
-		int scrolllastval = 0;
 		setTitle("Season Generator");
 		setVisible(true);
 
@@ -98,12 +99,12 @@ public class Scheduler extends Frame implements ActionListener {
 
 			@Override
 			public void adjustmentValueChanged(AdjustmentEvent e) {
-				container.setLocation(container.getLocation().x, -1*e.getValue());
-				
+				container.setLocation(container.getLocation().x, -1 * e.getValue());
+
 			}
-			
+
 		});
-		
+
 		m.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int teamamount = 130;
@@ -115,26 +116,30 @@ public class Scheduler extends Frame implements ActionListener {
 				}
 				TeamList teamlist = new TeamList(teamamount);
 				Team[] teams = teamlist.teams;
-				Conference[] conferences = teamlist.conferences;
 				String[] teamStrings = new String[teams.length - 1];
-				for (int i = 0; i < teams.length - 1; i++) {
-					teamStrings[i] = teams[i + 1].getName();
-				}
-				awayteams.add(new JComboBox<String>(teamStrings));
-				ats.add(new Label(" at"));
-				hometeams.add(new JComboBox<String>(teamStrings));
-				weeklabels.add(new Label("                                                                        Week: "));
-				weektexts.add(new TextField("1"));
-				container.add(awayteams.get(awayteams.size() - 1));
-				container.add(ats.get(ats.size() - 1));
-				container.add(hometeams.get(hometeams.size() - 1));
-				container.add(weeklabels.get(weeklabels.size()-1));
-				container.add(weektexts.get(weektexts.size()-1));
-				scrollbar.setMaximum(scrollbar.getMaximum()+60);
-				container.setSize(450, container.getSize().height + 60);
+				try {
+					for (int i = 0; i < teams.length - 1; i++) {
+						teamStrings[i] = teams[i + 1].getName();
+					}
+					awayteams.add(new JComboBox<String>(teamStrings));
+					ats.add(new Label(" at"));
+					hometeams.add(new JComboBox<String>(teamStrings));
+					weeklabels.add(new Label(
+							"                                                                        Week: "));
+					weektexts.add(new TextField("1"));
+					container.add(awayteams.get(awayteams.size() - 1));
+					container.add(ats.get(ats.size() - 1));
+					container.add(hometeams.get(hometeams.size() - 1));
+					container.add(weeklabels.get(weeklabels.size() - 1));
+					container.add(weektexts.get(weektexts.size() - 1));
+					scrollbar.setMaximum(scrollbar.getMaximum() + 60);
+					container.setSize(450, container.getSize().height + 60);
 					setSize(450, Scheduler.super.getSize().height + 60);
-				
-				setVisible(true);
+
+					setVisible(true);
+				} catch (NullPointerException n) {
+					JOptionPane.showMessageDialog(new JFrame(), "No teams detected in folder");
+				}
 			}
 		});
 
@@ -144,10 +149,10 @@ public class Scheduler extends Frame implements ActionListener {
 					container.remove(awayteams.get(awayteams.size() - 1));
 					container.remove(ats.get(ats.size() - 1));
 					container.remove(hometeams.get(hometeams.size() - 1));
-					container.remove(weeklabels.get(weeklabels.size()-1));
-					container.remove(weektexts.get(weektexts.size()-1));
-						setSize(450, Scheduler.super.getSize().height - 60);
-					
+					container.remove(weeklabels.get(weeklabels.size() - 1));
+					container.remove(weektexts.get(weektexts.size() - 1));
+					setSize(450, Scheduler.super.getSize().height - 60);
+
 					Scheduler.super.repaint();
 					awayteams.remove(awayteams.size() - 1);
 					ats.remove(ats.size() - 1);
@@ -161,10 +166,10 @@ public class Scheduler extends Frame implements ActionListener {
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < awayteams.size(); i++) {
-					if (Integer.parseInt(weektexts.get(i).getText()) > Integer.parseInt(confweekamount.getText()) +
-							Integer.parseInt(nonconfweekamount.getText()) + Integer.parseInt(byeweekamount.getText())) {
-						JOptionPane.showMessageDialog(new JFrame(),
-		                        "Week is outside range for matchup " + (i+1));
+					if (Integer.parseInt(weektexts.get(i).getText()) > Integer.parseInt(confweekamount.getText())
+							+ Integer.parseInt(nonconfweekamount.getText())
+							+ Integer.parseInt(byeweekamount.getText())) {
+						JOptionPane.showMessageDialog(new JFrame(), "Week is outside range for matchup " + (i + 1));
 						return;
 					}
 				}
@@ -179,40 +184,44 @@ public class Scheduler extends Frame implements ActionListener {
 				Team[] teams = teamlist.teams;
 				Conference[] conferences = teamlist.conferences;
 				ArrayList<Matchup> matchups = new ArrayList<Matchup>();
-				for (int i = 0; i < awayteams.size(); i++) {
-					Team away = new Team(0, "BYE", 0);
-					Team home = new Team(0, "BYE", 0);
-					for (int j = 1; j < teams.length; j++) {
-						if (teams[j].getName().equals(awayteams.get(i).getSelectedItem())){
-							away = teams[j];
-						}
-						if (teams[j].getName().equals(hometeams.get(i).getSelectedItem())){
-							home = teams[j];
-						}
-						if (home == away) {
-							JOptionPane.showMessageDialog(new JFrame(),
-			                        "Teams cannot be the same for matchup " + (i+1));
-							return;
-						}
-					}
-					matchups.add(new Matchup(Integer.parseInt(weektexts.get(i).getText())-1, away, home));
-				}
-				SeasonMaker sm = new SeasonMaker(teams, conferences, Integer.parseInt(confweekamount.getText()),
-						Integer.parseInt(nonconfweekamount.getText()), Integer.parseInt(byeweekamount.getText()), matchups);
-
-				sm.generateRegularSeason();
-				File f = new File("Schedules" + teamamount + "\\schedule_template_"
-						+ (Integer.parseInt(season.getText()) - 1) + ".csv");
 				try {
-					f.createNewFile();
-					FileWriter writer = new FileWriter(f);
-					writer.write(sm.getSeason());
-					writer.close();
-				} catch (IOException exc) {
+					for (int i = 0; i < awayteams.size(); i++) {
+						Team away = new Team(0, "BYE", 0);
+						Team home = new Team(0, "BYE", 0);
+						for (int j = 1; j < teams.length; j++) {
+							if (teams[j].getName().equals(awayteams.get(i).getSelectedItem())) {
+								away = teams[j];
+							}
+							if (teams[j].getName().equals(hometeams.get(i).getSelectedItem())) {
+								home = teams[j];
+							}
+							if (home == away) {
+								JOptionPane.showMessageDialog(new JFrame(),
+										"Teams cannot be the same for matchup " + (i + 1));
+								return;
+							}
+						}
+						matchups.add(new Matchup(Integer.parseInt(weektexts.get(i).getText()) - 1, home, away));
+					}
+					SeasonMaker sm = new SeasonMaker(teams, conferences, Integer.parseInt(confweekamount.getText()),
+							Integer.parseInt(nonconfweekamount.getText()), Integer.parseInt(byeweekamount.getText()),
+							matchups);
 
+					sm.generateRegularSeason();
+					File f = new File("Schedules" + teamamount + "\\schedule_template_"
+							+ (Integer.parseInt(season.getText()) - 1) + ".csv");
+					try {
+						f.createNewFile();
+						FileWriter writer = new FileWriter(f);
+						writer.write(sm.getSeason());
+						writer.close();
+					} catch (IOException exc) {
+
+					}
+					JOptionPane.showMessageDialog(new JFrame(), "Generation Done");
+				} catch (NullPointerException n) {
+					JOptionPane.showMessageDialog(new JFrame(), "No teams detected in folder");
 				}
-				JOptionPane.showMessageDialog(new JFrame(),
-                        "Generation Done");
 			}
 		});
 	}
