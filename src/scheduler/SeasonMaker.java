@@ -13,10 +13,11 @@ public class SeasonMaker {
 	int retryflag;
 	int retryflag1;
 	String schedulestring;
-	Random random = new Random(2);
+	Random random = new Random();
 	Team[] teams;
 	Conference[] conferences;
 	Team[][] schedule;
+	Boolean[][] homeschedule;
 	ArrayList<Matchup> matchups;
 	HashMap<Integer, Integer> nonconcount;
 	HashMap<Integer, Integer> byeweekcount;
@@ -37,8 +38,33 @@ public class SeasonMaker {
 
 	void createScheduleTemplate() {
 		schedule = new Team[weeks][teams.length];
+		this.nonconcount = new HashMap<Integer, Integer>();
+		this.byeweekcount = new HashMap<Integer, Integer>();
 		addRequestedMatchups();
 		adjustAvailableConferenceMembers();
+	}
+
+	void createHomeSchedule() {
+		homeschedule = new Boolean[weeks][teams.length];
+		for (Matchup cur : matchups) {
+			homeschedule[cur.getWeek()][cur.getHome().getID()] = true;
+			homeschedule[cur.getWeek()][cur.getAway().getID()] = false;
+		}
+		int counter = 1;
+		for (int team = 1; team < teams.length; team++) {
+			for (int week = 0; week < weeks; week++) {
+				if (homeschedule[week][team] == null && schedule[week][team].getID() != 0) {
+					if (counter % 2 == 0) {
+						homeschedule[week][team] = true;
+						homeschedule[week][schedule[week][team].getID()] = false;
+					} else {
+						homeschedule[week][team] = false;
+						homeschedule[week][schedule[week][team].getID()] = true;
+					}
+					counter++;
+				}
+			}
+		}
 	}
 
 	void addRequestedMatchups() {
@@ -112,6 +138,8 @@ public class SeasonMaker {
 		}
 		for (int i = 1; i <= byeweeks; i++) {
 			for (int team = 1; team < teams.length; team++) {
+				if (i == 3 && team == 3) {
+				}
 				if (byeweekcount.get(team) < i) {
 					int week = random.nextInt(weeks - 1);
 					for (int j = 0; j < weeks; j++) {
@@ -119,38 +147,8 @@ public class SeasonMaker {
 								|| ((week != 0 && schedule[week - 1][team] != BYE)
 										&& schedule[week + 1][team] != BYE)) {
 							if (schedule[week][team] != null) {
-								int teamop = schedule[week][team].getID();
-								if ((byeweekcount.containsKey(teamop) && byeweekcount.get(teamop) >= byeweeks)
-										|| (week != 0 && schedule[week - 1][teamop] == BYE)
-										|| schedule[week + 1][teamop] == BYE) {
-									week++;
-									week %= weeks - 1;
-									continue;
-								}
-								boolean matchupflag = false;
-								for (Matchup match : matchups) {
-									if ((match.week == week)
-											&& (schedule[week][team] == match.getAway()
-													|| schedule[week][team] == match.getHome())
-											&& (teams[team] == match.getAway() || teams[team] == match.getHome())) {
-										matchupflag = true;
-										break;
-									}
-								}
-								if (matchupflag) {
-									week++;
-									week %= weeks - 1;
-								} else {
-									if (schedule[week][team] == null && schedule[week][teamop] == null) {
-										schedule[week][team] = schedule[week][team];
-										schedule[week][team] = BYE;
-										incrementByeWeekCount(team);
-										schedule[week][teamop] = schedule[week][teamop];
-										schedule[week][teamop] = BYE;
-										incrementByeWeekCount(teamop);
-										break;
-									}
-								}
+								week++;
+								week %= weeks - 1;
 							} else {
 								Conference curconf = conferences[teams[team].getConferenceID()];
 								int randconfop = random.nextInt(curconf.numTeams());
@@ -368,7 +366,7 @@ public class SeasonMaker {
 				}
 			}
 		}
-		printSchedule();
+		createHomeSchedule();
 		arrayToSchedule();
 	}
 
@@ -376,36 +374,27 @@ public class SeasonMaker {
 	 * Turn 2d array into schedule string used by game
 	 */
 	void arrayToSchedule() {
+		Team[][] schedule = new Team[weeks][teams.length];
+		for (int week = 0; week < weeks; week++) {
+			for (int team = 1; team < teams.length; team++) {
+				schedule[week][team] = this.schedule[week][team];
+			}
+		}
 		int counter = 1;
 		for (int i = 0; i < schedule.length; i++) {
 			for (int j = 1; j < schedule[i].length; j++) {
 				if (schedule[i][j] != null && schedule[i][j].getID() != 0) {
 					schedulestring += "\n" + counter + "," + (i + 1) + ",";
-					boolean matchupflag = false;
-					for (Matchup cur : matchups) {
-						if (cur.getWeek() == i
-								&& (cur.getHome().getID() == j || cur.getHome().getID() == schedule[i][j].getID())
-								&& (cur.getAway().getID() == j || cur.getAway().getID() == schedule[i][j].getID())) {
-							matchupflag = true;
-							schedulestring += cur.getHome().getID() + "," + cur.getHome().getConferenceID() + ",";
-							schedulestring += cur.getAway().getID() + "," + cur.getAway().getConferenceID() + ",";
-							break;
-						}
-					}
-					if (!matchupflag) {
-
-						if (counter % 2 == 0) {
-							schedulestring += schedule[i][j].getID() + "," + schedule[i][j].getConferenceID() + ",";
-							schedulestring += teams[j].getID() + "," + teams[j].getConferenceID() + ",";
-						} else {
-							schedulestring += teams[j].getID() + "," + teams[j].getConferenceID() + ",";
-							schedulestring += schedule[i][j].getID() + "," + schedule[i][j].getConferenceID() + ",";
-						}
+					if (homeschedule[i][j] != null && homeschedule[i][j] == true) {
+						schedulestring += teams[j].getID() + "," + teams[j].getConferenceID() + ",";
+						schedulestring += schedule[i][j].getID() + "," + schedule[i][j].getConferenceID() + ",";
+					} else {
+						schedulestring += teams[j].getID() + "," + teams[j].getConferenceID() + ",";
+						schedulestring += schedule[i][j].getID() + "," + schedule[i][j].getConferenceID() + ",";
 					}
 					schedulestring += (teams[j].getConferenceID() == schedule[i][j].getConferenceID() ? "TRUE"
 							: "FALSE");
 					schedule[i][schedule[i][j].getID()] = null;
-					counter++;
 				}
 			}
 		}
@@ -417,7 +406,7 @@ public class SeasonMaker {
 	 * @param schedule
 	 * @param conference
 	 */
-	void printConferenceSchedule(Conference conference) {
+	String printConferenceSchedule(Conference conference) {
 		String str = "";
 		for (int i = 0; i < conference.numTeams(); i++) {
 			str += String.format("%1$" + 25 + "s", conference.getTeam(i).getName() + "  ");
@@ -437,26 +426,25 @@ public class SeasonMaker {
 
 		str += "\n\n";
 		System.out.print(str);
+		return str;
 	}
 
-	void printSchedule() {
+	String printSchedule() {
 		String str = "";
 		for (int i = 1; i < teams.length; i++) {
-			str += String.format("%1$" + 8 + "s", teams[i].getAbbrev());
+			str += String.format("%1$" + 9 + "s", teams[i].getAbbrev());
 		}
 		str += "\n";
-		for (int i = 1; i < 8 * teams.length; i++) {
-			str += "_";
-		}
 		str += "\n";
 		for (int i = 0; i < weeks; i++) {
 			for (int j = 1; j < schedule[i].length; j++) {
-				str += (schedule[i][j] == null ? "-------|"
-						: String.format("%1$" + 8 + "s", schedule[i][j].getAbbrev() + "|"));
+				str += (schedule[i][j] == null ? "--------|"
+						: (String.format("%1$" + 9 + "s", (homeschedule[i][j] != null && !homeschedule[i][j] ? "@" : " ") + schedule[i][j].getAbbrev() + "|")));
 			}
 			str += "\n";
 		}
 		System.out.println(str);
+		return str;
 	}
 
 	/*

@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -17,6 +18,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class Scheduler extends Frame implements ActionListener {
@@ -72,12 +75,7 @@ public class Scheduler extends Frame implements ActionListener {
 		final TextField byeweekamount = new TextField("3");
 		nonconfweekamount.setEditable(true);
 		container.add(byeweekamount);
-		container.add(new Label("                        Enter season number"));
-		final TextField season = new TextField("1");
-		season.setEditable(true);
-		container.add(season);
-		container.add(new Label("                                               "));
-		container.add(new Label("                "));
+		container.add(new Label("                                     "));
 		Button m = new Button("Add Matchup");
 		m.setBounds(30, 250, 80, 30);// setting button position
 		container.add(m);
@@ -164,6 +162,7 @@ public class Scheduler extends Frame implements ActionListener {
 		});
 
 		b.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < awayteams.size(); i++) {
 					if (Integer.parseInt(weektexts.get(i).getText()) > Integer.parseInt(confweekamount.getText())
@@ -208,19 +207,70 @@ public class Scheduler extends Frame implements ActionListener {
 							matchups);
 
 					sm.generateRegularSeason();
-					File f = new File("Schedules" + teamamount + "\\schedule_template_"
-							+ (Integer.parseInt(season.getText()) - 1) + ".csv");
-					try {
-						f.createNewFile();
-						FileWriter writer = new FileWriter(f);
-						writer.write(sm.getSeason());
-						writer.close();
-					} catch (IOException exc) {
+					JOptionPane jopt = new JOptionPane();
+					String text = sm.printSchedule();
+					JTextArea textArea = new JTextArea(text);
+					JScrollPane scrollPane = new JScrollPane(textArea);
+					scrollPane.setPreferredSize(new Dimension(1000, 500));
+//					JLabel resLabel = new JLabel(text);
+					textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
+					if (jopt.showConfirmDialog(null, scrollPane, "Schedule Generation Done",
+							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						File directory = new File("StoredSchedules" + teamamount);
+						if (!directory.exists()) {
+							directory.mkdir();
+							try {
+								FileWriter fw = new FileWriter(
+										new File("StoredSchedules" + teamamount + "\\StoredSchedulesREADME.txt"));
+								fw.write(
+										"Each season is picked at random from a list of templates, \nso to ensure that your generated schedule is chosen, \nall previously created schedules are moved here");
+								fw.close();
+							} catch (IOException ioe) {
+								JOptionPane.showMessageDialog(new JFrame(), "Error Creating StoredScheduleREADME");
+							}
+						}
+						for (File file : new File("Schedules" + teamamount).listFiles()) {
+							File temp = new File("StoredSchedules" + teamamount + "\\" + file.getName());
+							if (temp.exists()) {
+								String filename = temp.getName();
+								filename = filename.substring(0, filename.length() - 4);
+								int copyid = 1;
+								File copyfiledest = new File(
+										"StoredSchedules" + teamamount + "\\" + filename + "(" + copyid + ").csv");
+								while (copyfiledest.exists()) {
+									copyid++;
+									copyfiledest = new File(
+											"StoredSchedules" + teamamount + "\\" + filename + "(" + copyid + ").csv");
+								}
+								try {
+									Files.move(file.toPath(), copyfiledest.toPath());
+								} catch (IOException copyerror) {
+									JOptionPane.showMessageDialog(new JFrame(),
+											"Error renaming file " + file.getName());
+								}
+							} else {
+								try {
+									Files.move(file.toPath(), temp.toPath());
+								} catch (IOException moveerror) {
+									JOptionPane.showMessageDialog(new JFrame(), "Error moving file " + file.getName());
+								}
+							}
+						}
+						File f = new File("Schedules" + teamamount + "\\schedule_template_0.csv");
+						try {
+							f.createNewFile();
+							FileWriter writer = new FileWriter(f);
+							writer.write(sm.getSeason());
+							writer.close();
+						} catch (IOException exc) {
 
+						}
+						JOptionPane.showMessageDialog(new JFrame(), "Schedule Created");
 					}
-					JOptionPane.showMessageDialog(new JFrame(), "Generation Done");
+
 				} catch (NullPointerException n) {
-					JOptionPane.showMessageDialog(new JFrame(), "No teams detected in folder");
+//					JOptionPane.showMessageDialog(new JFrame(), "No teams detected in folder");
+					JOptionPane.showMessageDialog(new JFrame(), n.getStackTrace());
 				}
 			}
 		});
