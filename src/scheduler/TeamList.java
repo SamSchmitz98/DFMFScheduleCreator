@@ -84,7 +84,6 @@ public class TeamList {
 		for (int j = 1; j < teams.length; j++) {
 			conferences[teams[j].getConferenceID()].addTeam(teams[j]);
 		}
-		System.out.println("Here");
 	}
 
 }

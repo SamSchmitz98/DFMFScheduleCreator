@@ -25,8 +25,7 @@ import javax.swing.JTextArea;
 public class Scheduler extends Frame implements ActionListener {
 
 	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		Scheduler app = new Scheduler();
+		new Scheduler();
 	}
 
 	public Scheduler() {

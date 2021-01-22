@@ -126,12 +126,14 @@ public class SeasonMaker {
 		if (byeweeks == 0) {
 			return;
 		}
-		Team BYE = new Team(0, "Bye", "----Bye", -1);
+		Team BYE = new Team(0, "--Bye", "----Bye", -1);
 		for (int i = 1; i < teams.length; i++) {
-			for (int week = 0; week < schedule.length; week++) {
-				if (schedule[week][i] == null) {
-					schedule[week][i] = BYE;
-					break;
+			if (conferences[teams[i].getConferenceID()].numTeams() % 2 == 0) {
+				for (int week = 0; week < schedule.length; week++) {
+					if (schedule[week][i] == null) {
+						schedule[week][i] = BYE;
+						break;
+					}
 				}
 			}
 			incrementByeWeekCount(i);
@@ -205,9 +207,9 @@ public class SeasonMaker {
 			return true;
 		}
 		int team = curconf.getTeam(inteam).getID();
-		if (conferencegamecounter % (curconf.numTeams() - 1) == 0) {
+		if (conferencegamecounter % (curconf.numTeams() % 2 == 0 ? curconf.numTeams() - 1 : curconf.numTeams()) == 0) {
 			opponents = getOpponents(curconf.getTeam(inteam), curconf);
-			int limit = (curconf.numTeams() - 1);
+			int limit = (curconf.numTeams() % 2 == 0 ? curconf.numTeams() - 1 : curconf.numTeams());
 			for (int k = week; (k < limit && k + week < confweeks); k++) {
 				if (schedule[k][team] != null) {
 					if (schedule[k][team].getConferenceID() != curconf.getID()) {
@@ -234,9 +236,22 @@ public class SeasonMaker {
 						&& schedule[week][opponents.get(tempopponent).getID()] != null) {
 					continue;
 				}
+				if (opponents.get(tempopponent).getID() == 0) {
+					boolean byeflag = false;
+					for (int i = 0; i < curconf.numTeams(); i++) {
+						if (schedule[week][curconf.getTeamID(curconf.getTeam(i))] != null && schedule[week][curconf.getTeamID(curconf.getTeam(i))].getAbbrev().contentEquals("Bye")) {
+							byeflag = true;
+							break;
+						}
+					}
+					if (byeflag) {
+						continue;
+					}
+				}
 				schedule[week][team] = opponents.remove(tempopponent); // schedule game
-				if (schedule[week][team].getID() != 0)
+				if (schedule[week][team].getID() != 0) {
 					schedule[week][schedule[week][team].getID()] = curconf.getTeam(inteam);
+				}
 				if (!getNextConferenceGame(curconf, inteam, week + 1, opponents, conferencegamecounter + 1)) {
 					opponents.add(tempopponent, schedule[week][team]);
 					schedule[week][team] = null;
@@ -439,7 +454,9 @@ public class SeasonMaker {
 		for (int i = 0; i < weeks; i++) {
 			for (int j = 1; j < schedule[i].length; j++) {
 				str += (schedule[i][j] == null ? "--------|"
-						: (String.format("%1$" + 9 + "s", (homeschedule[i][j] != null && !homeschedule[i][j] ? "@" : " ") + schedule[i][j].getAbbrev() + "|")));
+						: (String.format("%1$" + 9 + "s",
+								(homeschedule[i][j] != null && !homeschedule[i][j] ? "@" : " ")
+										+ schedule[i][j].getAbbrev() + "|")));
 			}
 			str += "\n";
 		}
