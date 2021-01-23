@@ -41,4 +41,8 @@ public class Matchup {
 		return home.getConferenceID() == away.getConferenceID();
 	}
 	
+	public String toString() {
+		return away + " at " + home + " in week " + week;
+	}
+	
 }

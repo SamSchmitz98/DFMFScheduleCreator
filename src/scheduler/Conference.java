@@ -6,6 +6,7 @@ public class Conference {
 	private ArrayList<Team> teams;
 	private String name;
 	private int ID;
+	private int rank;
 	
 	Conference(int ID){
 		this.ID = ID;
@@ -19,11 +20,27 @@ public class Conference {
 		teams = new ArrayList<Team>();
 	}
 	
+	Conference(int ID, String name, int rank){
+		this.ID = ID;
+		this.name = name;
+		this.rank = rank;
+		teams = new ArrayList<Team>();
+	}
+	
 	ArrayList<Team> getTeams(){
 		return teams;
 	}
 	
+	Team[] getTeamArray(){
+		Team[] result = new Team[teams.size()];
+		return teams.toArray(result);
+	}
+	
 	String getName() {
+		return name;
+	}
+	
+	public String toString() {
 		return name;
 	}
 	
@@ -35,7 +52,11 @@ public class Conference {
 		return teams.indexOf(team);
 	}
 	
-	int numTeams() {
+	int getRank() {
+		return rank;
+	}
+	
+	int size() {
 		return teams.size();
 	}
 	

@@ -91,17 +91,17 @@ public class SeasonMaker {
 				if (confcount[i] % 2 != 0) {
 					for (int j = i + 1; j < confcount.length; j++) {
 						if (confcount[j] % 2 != 0) {
-							int tempopponent1 = random.nextInt(conferences[i].numTeams());
-							for (int k = 0; k < conferences[i].numTeams(); k++) {
-								tempopponent1 %= conferences[i].numTeams();
+							int tempopponent1 = random.nextInt(conferences[i].size());
+							for (int k = 0; k < conferences[i].size(); k++) {
+								tempopponent1 %= conferences[i].size();
 								if (schedule[week][conferences[i].getTeam(tempopponent1).getID()] == null) {
 									break;
 								}
 								tempopponent1++;
 							}
-							int tempopponent2 = random.nextInt(conferences[j].numTeams());
-							for (int l = 0; l < conferences[j].numTeams(); l++) {
-								tempopponent2 %= conferences[j].numTeams();
+							int tempopponent2 = random.nextInt(conferences[j].size());
+							for (int l = 0; l < conferences[j].size(); l++) {
+								tempopponent2 %= conferences[j].size();
 								if (schedule[week][conferences[j].getTeam(tempopponent2).getID()] == null) {
 									break;
 								}
@@ -128,7 +128,7 @@ public class SeasonMaker {
 		}
 		Team BYE = new Team(0, "--Bye", "----Bye", -1);
 		for (int i = 1; i < teams.length; i++) {
-			if (conferences[teams[i].getConferenceID()].numTeams() % 2 == 0) {
+			if (conferences[teams[i].getConferenceID()].size() % 2 == 0) {
 				for (int week = 0; week < schedule.length; week++) {
 					if (schedule[week][i] == null) {
 						schedule[week][i] = BYE;
@@ -153,9 +153,9 @@ public class SeasonMaker {
 								week %= weeks - 1;
 							} else {
 								Conference curconf = conferences[teams[team].getConferenceID()];
-								int randconfop = random.nextInt(curconf.numTeams());
+								int randconfop = random.nextInt(curconf.size());
 								boolean foundteam = false;
-								for (int k = 0; k < curconf.numTeams(); k++) {
+								for (int k = 0; k < curconf.size(); k++) {
 									if (curconf.getTeam(randconfop) == teams[team]) {
 										continue;
 									}
@@ -203,13 +203,13 @@ public class SeasonMaker {
 			conferencegamecounter = 0;
 			// printConferenceSchedule(curconf); // For debugging
 		}
-		if (inteam == curconf.numTeams()) {
+		if (inteam == curconf.size()) {
 			return true;
 		}
 		int team = curconf.getTeam(inteam).getID();
-		if (conferencegamecounter % (curconf.numTeams() % 2 == 0 ? curconf.numTeams() - 1 : curconf.numTeams()) == 0) {
+		if (conferencegamecounter % (curconf.size() % 2 == 0 ? curconf.size() - 1 : curconf.size()) == 0) {
 			opponents = getOpponents(curconf.getTeam(inteam), curconf);
-			int limit = (curconf.numTeams() % 2 == 0 ? curconf.numTeams() - 1 : curconf.numTeams());
+			int limit = (curconf.size() % 2 == 0 ? curconf.size() - 1 : curconf.size());
 			for (int k = week; (k < limit && k + week < confweeks); k++) {
 				if (schedule[k][team] != null) {
 					if (schedule[k][team].getConferenceID() != curconf.getID()) {
@@ -238,7 +238,7 @@ public class SeasonMaker {
 				}
 				if (opponents.get(tempopponent).getID() == 0) {
 					boolean byeflag = false;
-					for (int i = 0; i < curconf.numTeams(); i++) {
+					for (int i = 0; i < curconf.size(); i++) {
 						if (schedule[week][curconf.getTeamID(curconf.getTeam(i))] != null && schedule[week][curconf.getTeamID(curconf.getTeam(i))].getAbbrev().contentEquals("Bye")) {
 							byeflag = true;
 							break;
@@ -276,6 +276,7 @@ public class SeasonMaker {
 	}
 
 	boolean getNextNonConGame(int team, int week) {
+//		printSchedule();
 		if (retryflag1 > 1000000) {
 			return false;
 		}
@@ -423,16 +424,16 @@ public class SeasonMaker {
 	 */
 	String printConferenceSchedule(Conference conference) {
 		String str = "";
-		for (int i = 0; i < conference.numTeams(); i++) {
+		for (int i = 0; i < conference.size(); i++) {
 			str += String.format("%1$" + 25 + "s", conference.getTeam(i).getName() + "  ");
 		}
 		str += "\n";
-		for (int i = 0; i < 25 * conference.numTeams(); i++) {
+		for (int i = 0; i < 25 * conference.size(); i++) {
 			str += "_";
 		}
 		str += "\n";
 		for (int i = 0; i < weeks; i++) {
-			for (int j = 0; j < conference.numTeams(); j++) {
+			for (int j = 0; j < conference.size(); j++) {
 				str += (schedule[i][conference.getTeam(j).getID()] == null ? "------------------------|"
 						: String.format("%1$" + 25 + "s", schedule[i][conference.getTeam(j).getID()].getName() + "|"));
 			}
@@ -455,7 +456,7 @@ public class SeasonMaker {
 			for (int j = 1; j < schedule[i].length; j++) {
 				str += (schedule[i][j] == null ? "--------|"
 						: (String.format("%1$" + 9 + "s",
-								(homeschedule[i][j] != null && !homeschedule[i][j] ? "@" : " ")
+								(homeschedule != null && homeschedule[i][j] != null && !homeschedule[i][j] ? "@" : " ")
 										+ schedule[i][j].getAbbrev() + "|")));
 			}
 			str += "\n";
@@ -474,7 +475,7 @@ public class SeasonMaker {
 				opponents.add(cur);
 			}
 		}
-		if (conference.numTeams() % 2 != 0) {
+		if (conference.size() % 2 != 0) {
 			opponents.add(new Team(0, "Bye", "Bye", conference.getID()));
 		}
 		return opponents;

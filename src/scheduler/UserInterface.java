@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -65,24 +66,15 @@ public class UserInterface extends JFrame implements ActionListener {
 		Conference[] conferences27 = teamlist27.conferences;
 		Conference[] conferences32 = teamlist32.conferences;
 		Conference[] conferences130 = teamlist130.conferences;
-		String[] teamStrings27 = new String[teams27.length - 1];
-		String[] teamStrings32 = new String[teams32.length - 1];
-		String[] teamStrings130 = new String[teams130.length - 1];
-		for (int i = 0; i < teams27.length - 1; i++) {
-			teamStrings27[i] = teams27[i + 1].getName();
-		}
-		for (int i = 0; i < teams32.length - 1; i++) {
-			teamStrings32[i] = teams32[i + 1].getName();
-		}
-		for (int i = 0; i < teams130.length - 1; i++) {
-			teamStrings130[i] = teams130[i + 1].getName();
-		}
 
+		/////////////////////
 		// Schedule Panel
+		/////////////////////
+
 		// Radio Buttons
 		JPanel radiobuttonpanel = new JPanel();
 		radiobuttonpanel.setLayout(null);
-		radiobuttonpanel.setBounds(0, 0, 102, 92);
+		radiobuttonpanel.setBounds(150, 0, 300, 30);
 		radiobuttonpanel.setBackground(Color.GRAY);
 		teams27rb = new JRadioButton("27 Teams");
 		teams32rb = new JRadioButton("32 Teams");
@@ -91,12 +83,12 @@ public class UserInterface extends JFrame implements ActionListener {
 		teams32rb.setSelected(false);
 		teams130rb.setSelected(true);
 		teams27rb.setBounds(0, 0, 100, 30);
-		teams32rb.setBounds(0, 30, 100, 30);
-		teams130rb.setBounds(0, 60, 100, 30);
+		teams32rb.setBounds(100, 0, 100, 30);
+		teams130rb.setBounds(200, 0, 100, 30);
 		radiobuttonpanel.add(teams27rb);
 		radiobuttonpanel.add(teams32rb);
 		radiobuttonpanel.add(teams130rb);
-		schedulepanel.add(radiobuttonpanel);
+		add(radiobuttonpanel);
 		ButtonGroup group = new ButtonGroup();
 		group.add(teams27rb);
 		group.add(teams32rb);
@@ -107,7 +99,7 @@ public class UserInterface extends JFrame implements ActionListener {
 		JButton generatebutton = new JButton("Generate Schedule");
 		addmatchupbutton.setBounds(10, 120, 110, 20);
 		remmatchupbutton.setBounds(130, 120, 140, 20);
-		generatebutton.setBounds(290, 115, 160, 30);
+		generatebutton.setBounds(390, 100, 160, 40);
 		schedulepanel.add(addmatchupbutton);
 		schedulepanel.add(remmatchupbutton);
 		schedulepanel.add(generatebutton);
@@ -118,18 +110,18 @@ public class UserInterface extends JFrame implements ActionListener {
 		nonconweeks = new JSpinner(spinnermodelnon);
 		conweeks = new JSpinner(spinnermodelcon);
 		byeweeks = new JSpinner(spinnermodelbye);
-		nonconweeks.setBounds(155, 8, 35, 24);
-		conweeks.setBounds(155, 38, 35, 24);
-		byeweeks.setBounds(155, 68, 35, 24);
+		nonconweeks.setBounds(155, 5, 35, 24);
+		conweeks.setBounds(155, 35, 35, 24);
+		byeweeks.setBounds(155, 65, 35, 24);
 		schedulepanel.add(nonconweeks);
 		schedulepanel.add(conweeks);
 		schedulepanel.add(byeweeks);
 		JLabel nonconlabel = new JLabel("Enter number of weeks of non conference play");
 		JLabel conlabel = new JLabel("Enter number of weeks of conference play");
 		JLabel byelabel = new JLabel("Enter number of bye weeks");
-		nonconlabel.setBounds(200, 5, 270, 30);
-		conlabel.setBounds(200, 35, 270, 30);
-		byelabel.setBounds(200, 65, 270, 30);
+		nonconlabel.setBounds(200, 0, 270, 30);
+		conlabel.setBounds(200, 30, 270, 30);
+		byelabel.setBounds(200, 60, 270, 30);
 		schedulepanel.add(nonconlabel);
 		schedulepanel.add(conlabel);
 		schedulepanel.add(byelabel);
@@ -137,16 +129,35 @@ public class UserInterface extends JFrame implements ActionListener {
 		JPanel innerpanel = new JPanel();
 		innerpanel.setLayout(null);
 		innerpanel.setPreferredSize(new Dimension(450, 100));
-		ArrayList<JComboBox<String>> awayteams = new ArrayList<JComboBox<String>>();
+		ArrayList<JComboBox<Team>> awayteams = new ArrayList<JComboBox<Team>>();
 		ArrayList<JLabel> ats = new ArrayList<JLabel>();
-		ArrayList<JComboBox<String>> hometeams = new ArrayList<JComboBox<String>>();
+		ArrayList<JComboBox<Team>> hometeams = new ArrayList<JComboBox<Team>>();
 		ArrayList<JLabel> weeklabels = new ArrayList<JLabel>();
 		ArrayList<JSpinner> weektexts = new ArrayList<JSpinner>();
 		JScrollPane matchuppanel = new JScrollPane(innerpanel);
-		matchuppanel.setBounds(3, 150, 472, 170);
+		matchuppanel.setBounds(3, 150, 572, 170);
 		matchuppanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		schedulepanel.add(matchuppanel);
 		revalidate();
+
+		
+		/////////////////////
+		// Conferences Panel
+		/////////////////////
+
+		JComboBox<Conference> conferences = new JComboBox<Conference>(conferences130);
+		JComboBox<Team> conferencemembers = new JComboBox<Team>(conferences130[1].getTeamArray());
+		conferences.removeItemAt(0);
+		conferencemembers.removeItemAt(0);
+		conferences.setBounds(10, 10, 215, 30);
+		conferencemembers.setBounds(10, 250, 215, 30);
+		conferencepanel.add(conferences);
+		conferencepanel.add(conferencemembers);
+
+		
+		/////////////////////
+		// Help Panel
+		/////////////////////
 
 		JTextArea helpTextArea = new JTextArea(20, 33);
 		helpTextArea.setText(HelpString.helpString());
@@ -154,46 +165,57 @@ public class UserInterface extends JFrame implements ActionListener {
 		helpScrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		helppanel.add(helpScrollableTextArea);
 
+		
+		/////////////////////
+		// Tabbed Panel
+		/////////////////////
+
 		JTabbedPane tp = new JTabbedPane();
-		tp.setBounds(0, 0, 500, 400);
+		tp.setBounds(0, 30, 600, 400);
 		tp.add("Schedule", schedulepanel);
 		tp.add("Conferences", conferencepanel);
 		tp.add("Help", helppanel);
 		add(tp);
 
 		setLayout(null);
-		setSize(500, 400);
+		setSize(600, 430);
 		setVisible(true);
 
 		addmatchupbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int count = awayteams.size();
 				if (teams27rb.isSelected()) {
-					awayteams.add(new JComboBox<String>(teamStrings27));
-					hometeams.add(new JComboBox<String>(teamStrings27));
+					awayteams.add(new JComboBox<Team>(teams27));
+					awayteams.get(count).removeItemAt(0);
+					hometeams.add(new JComboBox<Team>(teams27));
+					hometeams.get(count).removeItemAt(0);
 				}
 				if (teams32rb.isSelected()) {
-					awayteams.add(new JComboBox<String>(teamStrings32));
-					hometeams.add(new JComboBox<String>(teamStrings32));
+					awayteams.add(new JComboBox<Team>(teams32));
+					awayteams.get(count).removeItemAt(0);
+					hometeams.add(new JComboBox<Team>(teams32));
+					hometeams.get(count).removeItemAt(0);
 				}
 				if (teams130rb.isSelected()) {
-					awayteams.add(new JComboBox<String>(teamStrings130));
-					hometeams.add(new JComboBox<String>(teamStrings130));
+					awayteams.add(new JComboBox<Team>(teams130));
+					awayteams.get(count).removeItemAt(0);
+					hometeams.add(new JComboBox<Team>(teams130));
+					hometeams.get(count).removeItemAt(0);
 				}
 				ats.add(new JLabel("at"));
 				weeklabels.add(new JLabel("Week"));
 				weektexts.add(new JSpinner(new SpinnerNumberModel(1, 1, 99, 1)));
-				awayteams.get(count).setBounds(5, 10 + count * 40, 175, 30);
-				hometeams.get(count).setBounds(200, 10 + count * 40, 175, 30);
-				ats.get(count).setBounds(185, 10 + count * 40, 30, 30);
-				weeklabels.get(count).setBounds(380, 10 + count * 40, 40, 30);
-				weektexts.get(count).setBounds(415, 10 + count * 40, 35, 30);
+				awayteams.get(count).setBounds(5, 10 + count * 40, 215, 30);
+				hometeams.get(count).setBounds(250, 10 + count * 40, 215, 30);
+				ats.get(count).setBounds(230, 10 + count * 40, 30, 30);
+				weeklabels.get(count).setBounds(485, 10 + count * 40, 40, 30);
+				weektexts.get(count).setBounds(525, 10 + count * 40, 35, 30);
 				innerpanel.add(awayteams.get(count));
 				innerpanel.add(hometeams.get(count));
 				innerpanel.add(ats.get(count));
 				innerpanel.add(weeklabels.get(count));
 				innerpanel.add(weektexts.get(count));
-				innerpanel.setPreferredSize(new Dimension(450, (count + 1) * 40));
+				innerpanel.setPreferredSize(new Dimension(550, (count + 1) * 40));
 				innerpanel.revalidate();
 				matchuppanel.repaint();
 				revalidate();
@@ -225,55 +247,90 @@ public class UserInterface extends JFrame implements ActionListener {
 
 		teams27rb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (awayteams != null && awayteams.get(0).getItemCount() != teamStrings27.length) {
+				if (!awayteams.isEmpty() && awayteams.get(0).getItemCount() != teams27.length - 1) {
 					for (int i = 0; i < awayteams.size(); i++) {
 						awayteams.get(i).removeAllItems();
 						hometeams.get(i).removeAllItems();
-						for (int j = 0; j < teamStrings27.length; j++) {
-							awayteams.get(i).addItem(teamStrings27[j]);
-							hometeams.get(i).addItem(teamStrings27[j]);
+						for (int j = 1; j < teams27.length; j++) {
+							awayteams.get(i).addItem(teams27[j]);
+							hometeams.get(i).addItem(teams27[j]);
 						}
 					}
 					innerpanel.revalidate();
 					matchuppanel.repaint();
 					revalidate();
+				}
+				if (conferences.getItemAt(0) != conferences27[1]) {
+					conferences.removeAllItems();
+					for (int i = 1; i < conferences27.length; i++) {
+						conferences.addItem(conferences27[i]);
+					}
+					conferencepanel.repaint();
 				}
 			}
 		});
 
 		teams32rb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (awayteams != null && awayteams.get(0).getItemCount() != teamStrings32.length) {
+				if (!awayteams.isEmpty() && awayteams.get(0).getItemCount() != teams32.length - 1) {
 					for (int i = 0; i < awayteams.size(); i++) {
 						awayteams.get(i).removeAllItems();
 						hometeams.get(i).removeAllItems();
-						for (int j = 0; j < teamStrings32.length; j++) {
-							awayteams.get(i).addItem(teamStrings32[j]);
-							hometeams.get(i).addItem(teamStrings32[j]);
+						for (int j = 1; j < teams32.length; j++) {
+							awayteams.get(i).addItem(teams32[j]);
+							hometeams.get(i).addItem(teams32[j]);
 						}
 					}
 					innerpanel.revalidate();
 					matchuppanel.repaint();
 					revalidate();
+				}
+				if (conferences.getItemAt(0) != conferences32[1]) {
+					conferences.removeAllItems();
+					for (int i = 1; i < conferences32.length; i++) {
+						conferences.addItem(conferences32[i]);
+					}
+					conferencepanel.repaint();
 				}
 			}
 		});
 
 		teams130rb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (awayteams != null && awayteams.get(0).getItemCount() != teamStrings130.length) {
+				if (!awayteams.isEmpty() && awayteams.get(0).getItemCount() != teams130.length - 1) {
 					for (int i = 0; i < awayteams.size(); i++) {
 						awayteams.get(i).removeAllItems();
 						hometeams.get(i).removeAllItems();
-						for (int j = 0; j < teamStrings130.length; j++) {
-							awayteams.get(i).addItem(teamStrings130[j]);
-							hometeams.get(i).addItem(teamStrings130[j]);
+						for (int j = 1; j < teams130.length; j++) {
+							awayteams.get(i).addItem(teams130[j]);
+							hometeams.get(i).addItem(teams130[j]);
 						}
 					}
 					innerpanel.revalidate();
 					matchuppanel.repaint();
 					revalidate();
 				}
+				if (conferences.getItemAt(0) != conferences130[1]) {
+					conferences.removeAllItems();
+					for (int i = 1; i < conferences130.length; i++) {
+						conferences.addItem(conferences130[i]);
+					}
+					conferencepanel.repaint();
+				}
+			}
+		});
+		
+		conferences.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(conferences.getSelectedItem() == null) {
+					return;
+				}
+				Conference curconf = (Conference)conferences.getSelectedItem();
+				conferencemembers.removeAllItems();
+				for (int i = 0; i < curconf.size(); i++) {
+					conferencemembers.addItem(curconf.getTeam(i));
+				}
+				conferencepanel.repaint();
 			}
 		});
 
@@ -289,7 +346,7 @@ public class UserInterface extends JFrame implements ActionListener {
 					conferences = conferences27;
 					teamamount = 27;
 				}
-				if (teams32rb.isSelected()) {
+				else if (teams32rb.isSelected()) {
 					teams = teams32;
 					conferences = conferences32;
 					teamamount = 32;
@@ -299,21 +356,13 @@ public class UserInterface extends JFrame implements ActionListener {
 					teamamount = 130;
 				}
 				for (int i = 0; i < awayteams.size(); i++) {
-					Team away = new Team(0, "BYE", 0);
-					Team home = new Team(0, "BYE", 0);
-					for (int j = 1; j < teams.length; j++) {
-						if (teams[j].getName().equals(awayteams.get(i).getSelectedItem())) {
-							away = teams[j];
-						}
-						if (teams[j].getName().equals(hometeams.get(i).getSelectedItem())) {
-							home = teams[j];
-						}
-						if (home == away) {
-							JOptionPane.showMessageDialog(new JFrame(),
-									"Teams cannot be the same for matchup " + (i + 1));
-							return;
-						}
+					Team away = (Team) awayteams.get(i).getSelectedItem();
+					Team home = (Team) hometeams.get(i).getSelectedItem();
+					if (home == away) {
+						JOptionPane.showMessageDialog(new JFrame(), "Teams cannot be the same for matchup " + (i + 1));
+						return;
 					}
+
 					try {
 						matchups.add(
 								new Matchup(Integer.parseInt(weektexts.get(i).getValue().toString()) - 1, home, away));
@@ -365,8 +414,7 @@ public class UserInterface extends JFrame implements ActionListener {
 							try {
 								Files.move(file.toPath(), copyfiledest.toPath());
 							} catch (IOException copyerror) {
-								JOptionPane.showMessageDialog(new JFrame(),
-										"Error renaming file " + file.getName());
+								JOptionPane.showMessageDialog(new JFrame(), "Error renaming file " + file.getName());
 							}
 						} else {
 							try {

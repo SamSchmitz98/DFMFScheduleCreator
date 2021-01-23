@@ -48,4 +48,8 @@ public class Team {
 	ArrayList<Team> getRivals() {
 		return rivals;
 	}
+	
+	public String toString() {
+		return name;
+	}
 }
