@@ -7,6 +7,8 @@ public class Conference {
 	private String name;
 	private int ID;
 	private int rank;
+	private boolean power;
+	private boolean independent;
 	
 	Conference(int ID){
 		this.ID = ID;
@@ -56,15 +58,39 @@ public class Conference {
 		return rank;
 	}
 	
-	int size() {
-		return teams.size();
+	boolean isPower() {
+		return power;
+	}
+	
+	boolean isIndependent() {
+		return independent;
 	}
 	
 	Team getTeam(int ID) {
 		return teams.get(ID);
 	}
 	
+	int size() {
+		return teams.size();
+	}
+	
 	void addTeam(Team team) {
 		teams.add(team);
+	}
+	
+	void setName(String name) {
+		this.name = name;
+	}
+	
+	void setRank(int rank) {
+		this.rank = rank;
+	}
+	
+	void setPower(boolean power) {
+		this.power = power;
+	}
+	
+	void setIndependent(boolean independent) {
+		this.independent = independent;
 	}
 }

@@ -1,12 +1,8 @@
 package scheduler;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Label;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -14,16 +10,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -34,26 +26,41 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame implements ActionListener {
 
-	JPanel schedulepanel, conferencepanel, helppanel;
+	JPanel schedulepanel, conferencesettingspanel, conferencecreationpanel, helppanel;
 	JRadioButton teams27rb, teams32rb, teams130rb;
 	JSpinner nonconweeks, conweeks, byeweeks;
 
 	public UserInterface() {
 		// Create Panels
 		schedulepanel = new JPanel();
-		conferencepanel = new JPanel();
+		conferencesettingspanel = new JPanel();
+		conferencecreationpanel = new JPanel();
 		helppanel = new JPanel();
 		schedulepanel.setLayout(null);
-		conferencepanel.setLayout(null);
+		conferencesettingspanel.setLayout(null);
+		conferencecreationpanel.setLayout(null);
 		schedulepanel.setSize(500, 400);
-		conferencepanel.setSize(500, 400);
+		conferencesettingspanel.setSize(500, 400);
+		conferencecreationpanel.setSize(500, 400);
 		helppanel.setSize(400, 400);
 		schedulepanel.setVisible(true);
-		conferencepanel.setVisible(true);
+		conferencesettingspanel.setVisible(true);
+		conferencecreationpanel.setVisible(true);
 		helppanel.setVisible(true);
 
 		// Get Teams
@@ -140,21 +147,125 @@ public class UserInterface extends JFrame implements ActionListener {
 		schedulepanel.add(matchuppanel);
 		revalidate();
 
-		
 		/////////////////////
-		// Conferences Panel
+		// Conference Settings Panel
 		/////////////////////
 
+		// Conference Selection
 		JComboBox<Conference> conferences = new JComboBox<Conference>(conferences130);
-		JComboBox<Team> conferencemembers = new JComboBox<Team>(conferences130[1].getTeamArray());
 		conferences.removeItemAt(0);
-		conferencemembers.removeItemAt(0);
-		conferences.setBounds(10, 10, 215, 30);
-		conferencemembers.setBounds(10, 250, 215, 30);
-		conferencepanel.add(conferences);
-		conferencepanel.add(conferencemembers);
+		conferences.setBounds(10, 10, 235, 30);
+		conferencesettingspanel.add(conferences);
+		// Conference Information
+		JTextField conferencename = new JTextField(conferences130[1].toString());
+		SpinnerModel conferencerank = new SpinnerNumberModel(6, 1, 99, -1);
+		JSpinner conferencerankspinner = new JSpinner(conferencerank);
+		JLabel conferenceranklabel = new JLabel("Conference Rank");
+		JRadioButton powerconference = new JRadioButton("Power Conference");
+		JRadioButton independent = new JRadioButton("Independent");
+		JButton updateconference = new JButton("Update");
+		JButton deleteconference = new JButton("Delete Conference");
+		conferencename.setBounds(10, 50, 236, 20);
+		conferencerankspinner.setBounds(115, 73, 35, 24);
+		conferenceranklabel.setBounds(10, 80, 100, 10);
+		powerconference.setBounds(10, 100, 140, 25);
+		independent.setBounds(150, 100, 100, 25);
+		updateconference.setBounds(10, 130, 90, 25);
+		deleteconference.setBounds(105, 130, 140, 25);
+		conferencesettingspanel.add(conferencename);
+		conferencesettingspanel.add(conferencerankspinner);
+		conferencesettingspanel.add(conferenceranklabel);
+		conferencesettingspanel.add(powerconference);
+		conferencesettingspanel.add(independent);
+		conferencesettingspanel.add(updateconference);
+		conferencesettingspanel.add(deleteconference);
+		// Conference Championship
+		JRadioButton championship = new JRadioButton("Conference Chamionship");
+		JTextField championshiptitle = new JTextField("American Athletic Conference Championship");
+		JButton championshiplogo = new JButton("Upload Logo");
+		JButton championshiplogodefault = new JButton("Default");
+		JButton championshipupdate = new JButton("Update Championship");
+		championship.setBounds(335, 215, 200, 25);
+		championshiptitle.setBounds(335, 240, 236, 20);
+		championshiplogo.setBounds(335, 260, 125, 20);
+		championshiplogodefault.setBounds(465, 260, 105, 20);
+		championshipupdate.setBounds(335, 285, 170, 30);
+		conferencesettingspanel.add(championship);
+		conferencesettingspanel.add(championshiptitle);
+		conferencesettingspanel.add(championshiplogo);
+		conferencesettingspanel.add(championshiplogodefault);
+		conferencesettingspanel.add(championshipupdate);
+		// Conference Poaching
+		JComboBox<Team> fromconferencemembers = new JComboBox<Team>(conferences130[2].getTeamArray());
+		JComboBox<Conference> fromconferences = new JComboBox<Conference>(conferences130);
+		JButton recieve = new JButton("Recieve");
+		JLabel fromthe = new JLabel("From the");
+		fromconferences.removeItemAt(0);
+		fromconferences.removeItemAt(0);
+		fromconferencemembers.setBounds(335, 35, 235, 25);
+		fromconferences.setBounds(335, 80, 235, 25);
+		recieve.setBounds(335, 10, 90, 20);
+		fromthe.setBounds(335, 65, 60, 10);
+		conferencesettingspanel.add(fromconferencemembers);
+		conferencesettingspanel.add(fromconferences);
+		conferencesettingspanel.add(recieve);
+		conferencesettingspanel.add(fromthe);
+		// Conference Sending
+		JComboBox<Team> toconferencemembers = new JComboBox<Team>(conferences130[1].getTeamArray());
+		JComboBox<Conference> toconferences = new JComboBox<Conference>(conferences130);
+		JButton send = new JButton("Send");
+		JLabel tothe = new JLabel("To the");
+		toconferences.removeItemAt(0);
+		toconferences.removeItemAt(0);
+		toconferencemembers.setBounds(335, 145, 235, 25);
+		toconferences.setBounds(335, 190, 235, 25);
+		send.setBounds(335, 120, 90, 20);
+		tothe.setBounds(335, 175, 60, 10);
+		conferencesettingspanel.add(toconferencemembers);
+		conferencesettingspanel.add(toconferences);
+		conferencesettingspanel.add(send);
+		conferencesettingspanel.add(tothe);
+		// Conference Preview
+		JPanel previewpanel = new JPanel();
+		previewpanel.setLayout(null);
+		ArrayList<JLabel> conferencepreviewteams = new ArrayList<JLabel>();
+		for (int i = 0; i < conferences130[1].size(); i++) {
+			conferencepreviewteams.add(new JLabel(conferences130[1].getTeam(i).toString()));
+			conferencepreviewteams.get(i).setBounds(0, (i * 15), 200, 15);
+			previewpanel.setPreferredSize(new Dimension(200, (i * 15)));
+			previewpanel.add(conferencepreviewteams.get(i));
+		}
+		JScrollPane previewscrollpane = new JScrollPane(previewpanel);
+		previewscrollpane.setBounds(10, 160, 235, 170);
+		previewscrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		conferencesettingspanel.add(previewscrollpane);
 
-		
+		/////////////////////
+		// Conference Creation Panel
+		/////////////////////
+
+		// Conference Information
+		JLabel createaconference = new JLabel("<HTML><U><B>Create a Conference</B><U></HTML>");
+		createaconference.setFont(new Font(createaconference.getName(), Font.PLAIN, 20));
+		JTextField newconferencename = new JTextField();
+		JLabel newconferencenamelabel = new JLabel("Conference Name:");
+		SpinnerModel newconferencerank = new SpinnerNumberModel(12, 1, 99, -1);
+		JSpinner newconferencerankspinner = new JSpinner(newconferencerank);
+		JLabel newconferenceranklabel = new JLabel("Conference Rank");
+		JButton createbutton = new JButton("Create Conference");
+		createaconference.setBounds(10, 8, 235, 20);
+		newconferencename.setBounds(10, 50, 235, 20);
+		newconferencenamelabel.setBounds(10, 30, 235, 25);
+		newconferencerankspinner.setBounds(115, 73, 35, 24);
+		newconferenceranklabel.setBounds(10, 80, 100, 10);
+		createbutton.setBounds(10, 105, 160, 25);
+		conferencecreationpanel.add(createaconference);
+		conferencecreationpanel.add(newconferencename);
+		conferencecreationpanel.add(newconferencenamelabel);
+		conferencecreationpanel.add(newconferencerankspinner);
+		conferencecreationpanel.add(newconferenceranklabel);
+		conferencecreationpanel.add(createbutton);
+
 		/////////////////////
 		// Help Panel
 		/////////////////////
@@ -165,7 +276,6 @@ public class UserInterface extends JFrame implements ActionListener {
 		helpScrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		helppanel.add(helpScrollableTextArea);
 
-		
 		/////////////////////
 		// Tabbed Panel
 		/////////////////////
@@ -173,7 +283,8 @@ public class UserInterface extends JFrame implements ActionListener {
 		JTabbedPane tp = new JTabbedPane();
 		tp.setBounds(0, 30, 600, 400);
 		tp.add("Schedule", schedulepanel);
-		tp.add("Conferences", conferencepanel);
+		tp.add("Conference Settings", conferencesettingspanel);
+		tp.add("Conference Creation", conferencecreationpanel);
 		tp.add("Help", helppanel);
 		add(tp);
 
@@ -265,7 +376,7 @@ public class UserInterface extends JFrame implements ActionListener {
 					for (int i = 1; i < conferences27.length; i++) {
 						conferences.addItem(conferences27[i]);
 					}
-					conferencepanel.repaint();
+					conferencesettingspanel.repaint();
 				}
 			}
 		});
@@ -290,7 +401,7 @@ public class UserInterface extends JFrame implements ActionListener {
 					for (int i = 1; i < conferences32.length; i++) {
 						conferences.addItem(conferences32[i]);
 					}
-					conferencepanel.repaint();
+					conferencesettingspanel.repaint();
 				}
 			}
 		});
@@ -315,22 +426,103 @@ public class UserInterface extends JFrame implements ActionListener {
 					for (int i = 1; i < conferences130.length; i++) {
 						conferences.addItem(conferences130[i]);
 					}
-					conferencepanel.repaint();
+					conferencesettingspanel.repaint();
 				}
 			}
 		});
-		
-		conferences.addActionListener(new ActionListener() {
+
+		updateconference.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(conferences.getSelectedItem() == null) {
+				Conference curconf = ((Conference) conferences.getSelectedItem());
+				curconf.setName(conferencename.getText());
+				curconf.setRank((int) conferencerank.getValue());
+				curconf.setPower(powerconference.isSelected());
+				curconf.setIndependent(independent.isSelected());
+				if (!updateConferenceInfo(curconf)) {
+					JOptionPane.showMessageDialog(new JFrame(), "Something went wrong");
 					return;
 				}
-				Conference curconf = (Conference)conferences.getSelectedItem();
-				conferencemembers.removeAllItems();
-				for (int i = 0; i < curconf.size(); i++) {
-					conferencemembers.addItem(curconf.getTeam(i));
+				conferences.repaint();
+				JOptionPane.showMessageDialog(new JFrame(), "Conference Updated");
+			}
+		});
+
+		deleteconference.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Conference curconf = ((Conference) conferences.getSelectedItem());
+				if (curconf.size() != 0) {
+					JOptionPane.showMessageDialog(new JFrame(), "Cannot delete a conference with Teams in it");
+					return;
 				}
-				conferencepanel.repaint();
+				//TODO
+				JOptionPane.showMessageDialog(new JFrame(), "This functionality has not been implemented yet");
+			}
+		});
+
+		conferences.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (conferences.getSelectedItem() == null) {
+					return;
+				}
+				Conference curconf = (Conference) conferences.getSelectedItem();
+				toconferencemembers.removeAllItems();
+				for (int i = 0; i < curconf.size(); i++) {
+					toconferencemembers.addItem(curconf.getTeam(i));
+				}
+				toconferences.removeAllItems();
+				fromconferences.removeAllItems();
+				if (teams27rb.isSelected()) {
+					for (int i = 1; i < conferences27.length; i++) {
+						toconferences.addItem(conferences27[i]);
+						fromconferences.addItem(conferences27[i]);
+					}
+				}
+				if (teams32rb.isSelected()) {
+					for (int i = 1; i < conferences32.length; i++) {
+						toconferences.addItem(conferences32[i]);
+						fromconferences.addItem(conferences32[i]);
+					}
+				}
+				if (teams130rb.isSelected()) {
+					for (int i = 1; i < conferences130.length; i++) {
+						toconferences.addItem(conferences130[i]);
+						fromconferences.addItem(conferences130[i]);
+					}
+				}
+				toconferences.removeItem(curconf);
+				fromconferences.removeItem(curconf);
+				conferencename.setText(curconf.toString());
+				conferencerank.setValue(curconf.getRank());
+				previewpanel.setLayout(null);
+				for (int i = 0; i < conferencepreviewteams.size(); i++) {
+					previewpanel.remove(conferencepreviewteams.get(i));
+				}
+				conferencepreviewteams.removeAll(conferencepreviewteams);
+				for (int i = 0; i < curconf.size(); i++) {
+					conferencepreviewteams.add(new JLabel(curconf.getTeam(i).toString()));
+					conferencepreviewteams.get(i).setBounds(0, (i * 15), 200, 15);
+					previewpanel.setPreferredSize(new Dimension(200, (i * 15)));
+					previewpanel.add(conferencepreviewteams.get(i));
+				}
+				previewscrollpane.setBounds(10, 160, 235, 170);
+				previewscrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+				conferencesettingspanel.add(previewscrollpane);
+				conferencesettingspanel.repaint();
+				conferencesettingspanel.revalidate();
+			}
+		});
+
+		fromconferences.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fromconferences.getSelectedItem() == null) {
+					return;
+				}
+				Conference curconf = (Conference) fromconferences.getSelectedItem();
+				fromconferencemembers.removeAllItems();
+				for (int i = 0; i < curconf.size(); i++) {
+					fromconferencemembers.addItem(curconf.getTeam(i));
+				}
+				conferencesettingspanel.repaint();
 			}
 		});
 
@@ -345,8 +537,7 @@ public class UserInterface extends JFrame implements ActionListener {
 					teams = teams27;
 					conferences = conferences27;
 					teamamount = 27;
-				}
-				else if (teams32rb.isSelected()) {
+				} else if (teams32rb.isSelected()) {
 					teams = teams32;
 					conferences = conferences32;
 					teamamount = 32;
@@ -355,14 +546,23 @@ public class UserInterface extends JFrame implements ActionListener {
 					conferences = conferences130;
 					teamamount = 130;
 				}
+				int numweeks = Integer.parseInt(conweeks.getValue().toString())
+						+ Integer.parseInt(nonconweeks.getValue().toString())
+						+ Integer.parseInt(byeweeks.getValue().toString());
 				for (int i = 0; i < awayteams.size(); i++) {
 					Team away = (Team) awayteams.get(i).getSelectedItem();
 					Team home = (Team) hometeams.get(i).getSelectedItem();
 					if (home == away) {
-						JOptionPane.showMessageDialog(new JFrame(), "Teams cannot be the same for matchup " + (i + 1));
+						JOptionPane.showMessageDialog(new JFrame(),
+								"Teams cannot be the same. (Matchup " + (i + 1) + ")");
 						return;
 					}
 
+					if (Integer.parseInt(weektexts.get(i).getValue().toString()) - 1 > numweeks) {
+						JOptionPane.showMessageDialog(new JFrame(),
+								"Week of matchup cannot be outside season weeks. (Matchup " + (i + 1) + ")");
+						return;
+					}
 					try {
 						matchups.add(
 								new Matchup(Integer.parseInt(weektexts.get(i).getValue().toString()) - 1, home, away));
@@ -441,6 +641,52 @@ public class UserInterface extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		new UserInterface();
+	}
+
+	boolean updateConferenceInfo(Conference curconf) {
+		String foldername;
+		if (teams27rb.isSelected()) {
+			foldername = "Teams0027";
+		}
+		if (teams32rb.isSelected()) {
+			foldername = "Teams0032";
+		} else {
+			foldername = "Teams0130";
+		}
+		File f = new File(foldername + "/leaguesettings.xml");
+		Document doc;
+		try {
+			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
+		} catch (SAXException | IOException | ParserConfigurationException e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Error Opening " + foldername + "/leaguesettings.xml");
+			e.printStackTrace();
+			return false;
+		}
+		System.out.println("Changing " + doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(1)
+				.getTextContent() + " to " + curconf.getName());
+		doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(1)
+				.setTextContent(curconf.getName());
+		System.out.println("Changing " + doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(3)
+				.getTextContent() + " to " + curconf.getRank());
+		doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(3)
+				.setTextContent(curconf.getRank() + "");
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer;
+		try {
+			transformer = transformerFactory.newTransformer();
+	        DOMSource source = new DOMSource(doc);
+	        StreamResult result = new StreamResult(new File(f.getPath()));
+	        try {
+				transformer.transform(source, result);
+			} catch (TransformerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override

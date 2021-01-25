@@ -64,6 +64,7 @@ public class TeamList {
 					while(doc.getElementsByTagName("Div" + j).item(0) != null) {
 						String conferencename = doc.getElementsByTagName("Div" + j).item(0).getChildNodes().item(1).getTextContent();
 						conferencelist.add(j, new Conference(j, conferencename));
+						conferencelist.get(j).setRank(Integer.parseInt(doc.getElementsByTagName("Div" + j).item(0).getChildNodes().item(3).getTextContent()));
 						j++;
 					}
 					conferences = new Conference[conferencelist.size()];
