@@ -6,10 +6,12 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -454,7 +456,7 @@ public class UserInterface extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(new JFrame(), "Cannot delete a conference with Teams in it");
 					return;
 				}
-				//TODO
+				// TODO
 				JOptionPane.showMessageDialog(new JFrame(), "This functionality has not been implemented yet");
 			}
 		});
@@ -465,6 +467,8 @@ public class UserInterface extends JFrame implements ActionListener {
 					return;
 				}
 				Conference curconf = (Conference) conferences.getSelectedItem();
+				powerconference.setSelected(curconf.isPower());
+				independent.setSelected(curconf.isIndependent());
 				toconferencemembers.removeAllItems();
 				for (int i = 0; i < curconf.size(); i++) {
 					toconferencemembers.addItem(curconf.getTeam(i));
@@ -523,6 +527,40 @@ public class UserInterface extends JFrame implements ActionListener {
 					fromconferencemembers.addItem(curconf.getTeam(i));
 				}
 				conferencesettingspanel.repaint();
+			}
+		});
+
+		recieve.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fromconferencemembers.getSelectedItem() != null) {
+					Conference curconf = (Conference) conferences.getSelectedItem();
+					Conference fromconference = (Conference) fromconferences.getSelectedItem();
+					Team newteam = (Team) fromconferencemembers.getSelectedItem();
+					fromconference.getTeams().remove(newteam);
+					curconf.addTeam(newteam);
+					fromconferencemembers.removeItem(newteam);
+					for (int i = 0; i < conferencepreviewteams.size(); i++) {
+						previewpanel.remove(conferencepreviewteams.get(i));
+					}
+					conferencepreviewteams.removeAll(conferencepreviewteams);
+					for (int i = 0; i < curconf.size(); i++) {
+						conferencepreviewteams.add(new JLabel(curconf.getTeam(i).toString()));
+						conferencepreviewteams.get(i).setBounds(0, (i * 15), 200, 15);
+						previewpanel.setPreferredSize(new Dimension(200, (i * 15)));
+						previewpanel.add(conferencepreviewteams.get(i));
+					}
+					conferencesettingspanel.repaint();
+					conferencesettingspanel.revalidate();
+				} else {
+					JOptionPane.showMessageDialog(new JFrame(),
+							"No team selected to recieve");
+				}
+			}
+		});
+		
+		createbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(new JFrame(), "Functionality not implemented yet");
 			}
 		});
 
@@ -662,21 +700,23 @@ public class UserInterface extends JFrame implements ActionListener {
 			e.printStackTrace();
 			return false;
 		}
-		System.out.println("Changing " + doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(1)
-				.getTextContent() + " to " + curconf.getName());
+		System.out.println("Changing "
+				+ doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(1).getTextContent()
+				+ " to " + curconf.getName());
 		doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(1)
 				.setTextContent(curconf.getName());
-		System.out.println("Changing " + doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(3)
-				.getTextContent() + " to " + curconf.getRank());
+		System.out.println("Changing "
+				+ doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(3).getTextContent()
+				+ " to " + curconf.getRank());
 		doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(3)
 				.setTextContent(curconf.getRank() + "");
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer;
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer;
 		try {
 			transformer = transformerFactory.newTransformer();
-	        DOMSource source = new DOMSource(doc);
-	        StreamResult result = new StreamResult(new File(f.getPath()));
-	        try {
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File(f.getPath()));
+			try {
 				transformer.transform(source, result);
 			} catch (TransformerException e) {
 				// TODO Auto-generated catch block
@@ -684,6 +724,38 @@ public class UserInterface extends JFrame implements ActionListener {
 			}
 		} catch (TransformerConfigurationException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File data = new File(foldername + "/CustomConferenceData");
+		String contents = "";
+		int counter = 1;
+		Scanner scanner;
+		try {
+			scanner = new Scanner(data);
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Error Opening " + foldername + "/CustomConferenceData");
+			e.printStackTrace();
+			return false;
+		}
+		while (scanner.hasNextInt()) {
+			if (counter == curconf.getID()) {
+				scanner.nextInt();
+				scanner.nextInt();
+				contents += (curconf.isPower() ? "1 " : "0 ");
+				contents += (curconf.isIndependent() ? "1\n" : "0\n");
+			} else {
+				contents += scanner.nextInt() + " " + scanner.nextInt() + "\n";
+			}
+			counter++;
+		}
+		scanner.close();
+		FileWriter fw;
+		try {
+			fw = new FileWriter(data);
+			fw.write(contents);
+			fw.close();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Error Opening " + foldername + "/CustomConferenceData");
 			e.printStackTrace();
 		}
 		return true;

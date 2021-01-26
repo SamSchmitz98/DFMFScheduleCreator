@@ -9,15 +9,15 @@
     </Div1>
     <Div2>
       <Name>Atlantic Coast Conference</Name>
-      <Rank>2</Rank>
+      <Rank>4</Rank>
     </Div2>
     <Div3>
       <Name>Big 12 Conference</Name>
-      <Rank>4</Rank>
+      <Rank>1</Rank>
     </Div3>
     <Div4>
       <Name>Big Ten Conference</Name>
-      <Rank>3</Rank>
+      <Rank>2</Rank>
     </Div4>
     <Div5>
       <Name>Conference USA</Name>
@@ -41,7 +41,7 @@
     </Div9>
     <Div10>
       <Name>Southeastern Conference</Name>
-      <Rank>1</Rank>
+      <Rank>3</Rank>
     </Div10>
     <Div11>
       <Name>Sun Belt Conference</Name>

@@ -1,8 +1,11 @@
 package scheduler;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,7 +44,7 @@ public class TeamList {
 					teams[i] = new Team(i, doc.getElementsByTagName("SchoolName").item(0).getTextContent(),
 							doc.getElementsByTagName("NameShort").item(0).getTextContent(),
 							Integer.parseInt(doc.getElementsByTagName("LeagueDivision").item(0).getTextContent()));
-					if(teams[i].getConferenceID() > conferencecount){
+					if (teams[i].getConferenceID() > conferencecount) {
 						conferencecount = teams[i].getConferenceID();
 					}
 					i++;
@@ -54,17 +57,20 @@ public class TeamList {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			} if (filename.contentEquals("leaguesettings.xml")) {
+			}
+			if (filename.contentEquals("leaguesettings.xml")) {
 				File leaguexml = new File(foldername + "/" + filename);
 				try {
 					Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(leaguexml);
 					int j = 1;
 					ArrayList<Conference> conferencelist = new ArrayList<Conference>();
 					conferencelist.add(null);
-					while(doc.getElementsByTagName("Div" + j).item(0) != null) {
-						String conferencename = doc.getElementsByTagName("Div" + j).item(0).getChildNodes().item(1).getTextContent();
+					while (doc.getElementsByTagName("Div" + j).item(0) != null) {
+						String conferencename = doc.getElementsByTagName("Div" + j).item(0).getChildNodes().item(1)
+								.getTextContent();
 						conferencelist.add(j, new Conference(j, conferencename));
-						conferencelist.get(j).setRank(Integer.parseInt(doc.getElementsByTagName("Div" + j).item(0).getChildNodes().item(3).getTextContent()));
+						conferencelist.get(j).setRank(Integer.parseInt(
+								doc.getElementsByTagName("Div" + j).item(0).getChildNodes().item(3).getTextContent()));
 						j++;
 					}
 					conferences = new Conference[conferencelist.size()];
@@ -84,6 +90,42 @@ public class TeamList {
 		}
 		for (int j = 1; j < teams.length; j++) {
 			conferences[teams[j].getConferenceID()].addTeam(teams[j]);
+		}
+		File data = new File(foldername + "/CustomConferenceData");
+		if (!data.exists()) {
+			try {
+				FileWriter fw = new FileWriter(data);
+				for (int k = 1; k < conferences.length; k++) {
+					fw.write("0 0\n");
+				}
+				fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				Scanner scanner = new Scanner(data);
+				int counter = 1;
+				while(scanner.hasNextInt()) {
+					if(counter <= conferences.length+1) {
+						if (scanner.nextInt() == 1) {
+							conferences[counter].setPower(true);
+						} else {
+							conferences[counter].setPower(false);
+						}
+						if (scanner.nextInt() == 1) {
+							conferences[counter].setIndependent(true);
+						} else {
+							conferences[counter].setIndependent(false);
+						}
+						counter++;
+					}
+				}
+				scanner.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

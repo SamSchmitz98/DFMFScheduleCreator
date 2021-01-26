@@ -1,6 +1,7 @@
 package scheduler;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Conference {
 	private ArrayList<Team> teams;
@@ -76,6 +77,7 @@ public class Conference {
 	
 	void addTeam(Team team) {
 		teams.add(team);
+		teams.sort(new Sortbyname());
 	}
 	
 	void setName(String name) {
@@ -92,5 +94,11 @@ public class Conference {
 	
 	void setIndependent(boolean independent) {
 		this.independent = independent;
+	}
+	
+	class Sortbyname implements Comparator<Team> {
+		public int compare(Team a, Team b) {
+			return a.toString().compareTo(b.toString());
+		}
 	}
 }
