@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TeamData>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><TeamData>
     <Team>
         <ID>44</ID>
         <CanEdit>0</CanEdit>
@@ -19,7 +18,7 @@
         <LastYearsRecord>7-5-0-418-337</LastYearsRecord>
     </Team>
     <HomeUniform>
-        <Caption />
+        <Caption/>
         <CaptionColor>F1BE48FF</CaptionColor>
         <CaptionStroke>1</CaptionStroke>
         <CaptionStrokeColor>F1BE48FF</CaptionStrokeColor>
@@ -42,7 +41,7 @@
         <SockStripes>F1BE48FF</SockStripes>
     </HomeUniform>
     <AlternateUniform>
-        <Caption />
+        <Caption/>
         <CaptionColor>F1BE48FF</CaptionColor>
         <CaptionStroke>1</CaptionStroke>
         <CaptionStrokeColor>F1BE48FF</CaptionStrokeColor>
@@ -65,7 +64,7 @@
         <SockStripes>F1BE48FF</SockStripes>
     </AlternateUniform>
     <AwayUniform>
-        <Caption />
+        <Caption/>
         <CaptionColor>C8102EFF</CaptionColor>
         <CaptionStroke>1</CaptionStroke>
         <CaptionStrokeColor>C8102EFF</CaptionStrokeColor>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TeamData>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><TeamData>
     <Team>
         <ID>21</ID>
         <CanEdit>0</CanEdit>
@@ -15,7 +14,7 @@
         <MainColor>E00122FF</MainColor>
         <SecondColor>000000FF</SecondColor>
         <StadiumID>6</StadiumID>
-        <LeagueDivision>1</LeagueDivision>
+        <LeagueDivision>2</LeagueDivision>
         <LastYearsRecord>10-2-0-415-218</LastYearsRecord>
     </Team>
     <HomeUniform>
@@ -67,9 +66,9 @@
     <Helmet>
         <BaseColor>000000FF</BaseColor>
         <DoubleStripeColor>000000FF</DoubleStripeColor>
-        <FrontText />
+        <FrontText/>
         <MaskColor>000000FF</MaskColor>
-        <RearText />
+        <RearText/>
         <SingleStripeColor>000000FF</SingleStripeColor>
         <TextColor>000000FF</TextColor>
         <TextOutline>1</TextOutline>

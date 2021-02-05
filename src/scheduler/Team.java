@@ -7,6 +7,7 @@ public class Team {
 	private String abbrev;
 	private int ID;
 	private int conference;
+	private boolean hasmatchup;
 	private ArrayList<Team> rivals;
 	
 	
@@ -43,6 +44,18 @@ public class Team {
 	
 	int getConferenceID() {
 		return conference;
+	}
+	
+	boolean hasMatchup() {
+		return hasmatchup;
+	}
+	
+	void setConferenceID(int id) {
+		this.conference = id;
+	}
+	
+	void setHasMatchup(boolean bool) {
+		this.hasmatchup = bool;
 	}
 	
 	ArrayList<Team> getRivals() {

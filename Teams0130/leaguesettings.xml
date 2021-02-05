@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><LeagueData>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<LeagueData>
   <League ID="1">
     <GAMESPERTEAM>12</GAMESPERTEAM>
   </League>
@@ -361,7 +362,7 @@
       <HomeWinnerGameID/>
       <AwayWinnerGameID/>
     </Game>
-    
+
     <Game>
       <GameID>2</GameID>
       <WeekID>1</WeekID>
@@ -372,7 +373,8 @@
       <AwayRank>2</AwayRank>
       <HomeWinnerGameID/>
       <AwayWinnerGameID/>
-    </Game><Game>
+    </Game>
+    <Game>
       <GameID>3</GameID>
       <WeekID>1</WeekID>
       <Name>Big 12 Conference Championship</Name>
@@ -436,7 +438,8 @@
       <HomeRank>1</HomeRank>
       <AwayRank>2</AwayRank>
       <HomeWinnerGameID/>
-      <AwayWinnerGameID/>s
+      <AwayWinnerGameID/>
+s
     </Game>
     <Game>
       <GameID>9</GameID>
