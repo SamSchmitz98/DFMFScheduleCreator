@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 import javax.swing.ButtonGroup;
@@ -38,12 +39,17 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame implements ActionListener {
+
+	TeamList teamlist27, teamlist32, teamlist130;
+	Team[] teams27, teams32, teams130;
+	Conference[] conferences27, conferences32, conferences130;
 
 	JPanel schedulepanel, conferencesettingspanel, conferencecreationpanel, helppanel;
 	JRadioButton teams27rb, teams32rb, teams130rb;
@@ -68,16 +74,15 @@ public class UserInterface extends JFrame implements ActionListener {
 		helppanel.setVisible(true);
 
 		// Get Teams
-		TeamList teamlist27 = new TeamList(27);
-		TeamList teamlist32 = new TeamList(32);
-		TeamList teamlist130 = new TeamList(130);
-		Team[] teams27 = teamlist27.teams;
-		Team[] teams32 = teamlist32.teams;
-		Team[] teams130 = teamlist130.teams;
-		Conference[] conferences27 = teamlist27.conferences;
-		Conference[] conferences32 = teamlist32.conferences;
-		Conference[] conferences130 = teamlist130.conferences;
-
+		teamlist27 = new TeamList(27);
+		teamlist32 = new TeamList(32);
+		teamlist130 = new TeamList(130);
+		teams27 = teamlist27.teams;
+		teams32 = teamlist32.teams;
+		teams130 = teamlist130.teams;
+		conferences27 = teamlist27.conferences;
+		conferences32 = teamlist32.conferences;
+		conferences130 = teamlist130.conferences;
 		/////////////////////
 		// Schedule Panel
 		/////////////////////
@@ -460,8 +465,13 @@ public class UserInterface extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(new JFrame(), "Cannot delete a conference with Teams in it");
 					return;
 				}
-				// TODO
-				JOptionPane.showMessageDialog(new JFrame(), "This functionality has not been implemented yet");
+				if (!deleteConference(curconf)) {
+					JOptionPane.showMessageDialog(new JFrame(), "Something went wrong");
+					return;
+				}
+				conferences.removeItem(curconf);
+				conferences.repaint();
+				JOptionPane.showMessageDialog(new JFrame(), "Conference Removed");
 			}
 		});
 
@@ -699,15 +709,19 @@ public class UserInterface extends JFrame implements ActionListener {
 				try {
 					Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
 					Text name = doc.createTextNode(newconferencename.getText());
-					Node namenode = doc.createElement("Name");
+					Element namenode = doc.createElement("Name");
 					namenode.appendChild(name);
 					Text rank = doc.createTextNode(newconferencerank.getValue() + "");
-					Node ranknode = doc.createElement("Rank");
+					Element ranknode = doc.createElement("Rank");
 					ranknode.appendChild(rank);
-					Node divisionnode = doc.createElement("Div" + numcon);
-					divisionnode.appendChild(namenode);
-					divisionnode.appendChild(ranknode);
+					Element divisionnode = doc.createElement("Div");
 					doc.getElementsByTagName("Divisions").item(0).appendChild(divisionnode);
+					divisionnode.appendChild(doc.createTextNode("\n"));
+					divisionnode.appendChild(namenode);
+					divisionnode.appendChild(doc.createTextNode("\n"));
+					divisionnode.appendChild(ranknode);
+					divisionnode.appendChild(doc.createTextNode("\n"));
+					doc.normalize();
 					TransformerFactory transformerFactory = TransformerFactory.newInstance();
 					Transformer transformer;
 					try {
@@ -729,7 +743,47 @@ public class UserInterface extends JFrame implements ActionListener {
 					e1.printStackTrace();
 					return;
 				}
+				if (teams27rb.isSelected()) {
+					teamlist27 = new TeamList(27);
+					teams27 = teamlist27.teams;
+					conferences27 = teamlist27.conferences;
+					conferences.addItem(conferences27[conferences27.length - 1]);
+					toconferences.addItem(conferences27[conferences27.length - 1]);
+					fromconferences.addItem(conferences27[conferences27.length - 1]);
+				} else if (teams32rb.isSelected()) {
+					teamlist32 = new TeamList(32);
+					teams32 = teamlist32.teams;
+					conferences32 = teamlist32.conferences;
+					conferences.addItem(conferences32[conferences32.length - 1]);
+					toconferences.addItem(conferences32[conferences32.length - 1]);
+					fromconferences.addItem(conferences32[conferences32.length - 1]);
+				} else {
+					teamlist130 = new TeamList(130);
+					teams130 = teamlist130.teams;
+					conferences130 = teamlist130.conferences;
+					conferences.addItem(conferences130[conferences130.length - 1]);
+					toconferences.addItem(conferences130[conferences130.length - 1]);
+					fromconferences.addItem(conferences130[conferences130.length - 1]);
+				}
+				File data;
+				if (teams27rb.isSelected()) {
+					data = new File("Teams0027" + "/CustomConferenceData");
+				} else if (teams32rb.isSelected()) {
+					data = new File("Teams0032" + "/CustomConferenceData");
+				} else {
+					data = new File("Teams0130" + "/CustomConferenceData");
+				}
+				try {
+					FileWriter fw = new FileWriter(data, true);
+					fw.write("0 0\n");
+					fw.close();
+				} catch (IOException ioe) {
+					// TODO Auto-generated catch block
+					ioe.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(new JFrame(), "Conference Created");
 			}
+
 		});
 
 		generatebutton.addActionListener(new ActionListener() {
@@ -873,11 +927,21 @@ public class UserInterface extends JFrame implements ActionListener {
 			e.printStackTrace();
 			return false;
 		}
-
-		doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(1)
-				.setTextContent(curconf.getName());
-		doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(3)
-				.setTextContent(curconf.getRank() + "");
+		if (doc.getElementsByTagName("Div" + curconf.getID()).getLength() != 0) {
+			doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(1)
+					.setTextContent(curconf.getName());
+			doc.getElementsByTagName("Div" + curconf.getID()).item(0).getChildNodes().item(3)
+					.setTextContent(curconf.getRank() + "");
+		} else {
+			int premade = 1;
+			while (doc.getElementsByTagName("Div" + premade).getLength() != 0) {
+				premade++;
+			}
+			doc.getElementsByTagName("Div").item(curconf.getID()-premade).getChildNodes().item(1)
+					.setTextContent(curconf.getName());
+			doc.getElementsByTagName("Div").item(curconf.getID()-premade).getChildNodes().item(3)
+					.setTextContent(curconf.getRank() + "");
+		}
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer;
 		try {
@@ -929,6 +993,98 @@ public class UserInterface extends JFrame implements ActionListener {
 		return true;
 	}
 
+	boolean deleteConference(Conference curconf) {
+		String foldername;
+		if (teams27rb.isSelected()) {
+			foldername = "Teams0027";
+		}
+		if (teams32rb.isSelected()) {
+			foldername = "Teams0032";
+		} else {
+			foldername = "Teams0130";
+		}
+		File f = new File(foldername + "/leaguesettings.xml");
+		Document doc;
+		try {
+			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
+		} catch (SAXException | IOException | ParserConfigurationException e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Error Opening " + foldername + "/leaguesettings.xml");
+			e.printStackTrace();
+			return false;
+		}
+		if (doc.getElementsByTagName("Div" + curconf.getID()).getLength() != 0) {
+			JOptionPane.showMessageDialog(new JFrame(), "Cannot delete base conference (but it can just be left empty)");
+			return false;
+		} else {
+			int premade = 1;
+			while (doc.getElementsByTagName("Div" + premade).getLength() != 0) {
+				premade++;
+			}
+			Element element = (Element) doc.getElementsByTagName("Div").item(curconf.getID()-premade);
+			element.getParentNode().removeChild(element);
+			doc.normalize();
+		}
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer;
+		try {
+			transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File(f.getPath()));
+			try {
+				transformer.transform(source, result);
+			} catch (TransformerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}File data = new File(foldername + "/CustomConferenceData");
+		String contents = "";
+		int counter = 1;
+		Scanner scanner;
+		try {
+			scanner = new Scanner(data);
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Error Opening " + foldername + "/CustomConferenceData");
+			e.printStackTrace();
+			return false;
+		}
+		while (scanner.hasNextInt()) {
+			if (counter == curconf.getID()) {
+				scanner.nextInt();
+				scanner.nextInt();
+			} else {
+				contents += scanner.nextInt() + " " + scanner.nextInt() + "\n";
+			}
+			counter++;
+		}
+		scanner.close();
+		FileWriter fw;
+		try {
+			fw = new FileWriter(data);
+			fw.write(contents);
+			fw.close();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Error Opening " + foldername + "/CustomConferenceData");
+			e.printStackTrace();
+		}
+		if (teams27rb.isSelected()) {
+			teamlist27 = new TeamList(27);
+			teams27 = teamlist27.teams;
+			conferences27 = teamlist27.conferences;
+		} else if (teams32rb.isSelected()) {
+			teamlist32 = new TeamList(32);
+			teams32 = teamlist32.teams;
+			conferences32 = teamlist32.conferences;
+		} else {
+			teamlist130 = new TeamList(130);
+			teams130 = teamlist130.teams;
+			conferences130 = teamlist130.conferences;
+		}
+		return true;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

@@ -1,467 +1,465 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<LeagueData>
-  <League ID="1">
-    <GAMESPERTEAM>12</GAMESPERTEAM>
-  </League>
-  <Divisions>
-    <Div1>
-      <Name>American Athletic Conference</Name>
-      <Rank>6</Rank>
-    </Div1>
-    <Div2>
-      <Name>Atlantic Coast Conference</Name>
-      <Rank>4</Rank>
-    </Div2>
-    <Div3>
-      <Name>Big 12 Conference</Name>
-      <Rank>1</Rank>
-    </Div3>
-    <Div4>
-      <Name>Big Ten Conference</Name>
-      <Rank>2</Rank>
-    </Div4>
-    <Div5>
-      <Name>Conference USA</Name>
-      <Rank>11</Rank>
-    </Div5>
-    <Div6>
-      <Name>FBS Independent</Name>
-      <Rank>7</Rank>
-    </Div6>
-    <Div7>
-      <Name>Mid-American Conference</Name>
-      <Rank>9</Rank>
-    </Div7>
-    <Div8>
-      <Name>Mountain West Conference</Name>
-      <Rank>8</Rank>
-    </Div8>
-    <Div9>
-      <Name>PAC-12 Conference</Name>
-      <Rank>5</Rank>
-    </Div9>
-    <Div10>
-      <Name>Southeastern Conference</Name>
-      <Rank>3</Rank>
-    </Div10>
-    <Div11>
-      <Name>Sun Belt Conference</Name>
-      <Rank>10</Rank>
-    </Div11>
-  </Divisions>
-  <BowlGames>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Tropical Smoothie Cafe Frisco Bowl</Name>
-      <LogoID>022</LogoID>
-      <DivisionID/>
-      <HomeRank>69</HomeRank>
-      <AwayRank>70</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Myrtle Beach Bowl</Name>
-      <LogoID>034</LogoID>
-      <DivisionID/>
-      <HomeRank>67</HomeRank>
-      <AwayRank>68</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Famous Idaho Potato Bowl</Name>
-      <LogoID>011</LogoID>
-      <DivisionID/>
-      <HomeRank>65</HomeRank>
-      <AwayRank>66</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>R+L Carriers New Orleans Bowl</Name>
-      <LogoID>012</LogoID>
-      <DivisionID/>
-      <HomeRank>63</HomeRank>
-      <AwayRank>64</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Montgomery Bowl</Name>
-      <LogoID>032</LogoID>
-      <DivisionID/>
-      <HomeRank>61</HomeRank>
-      <AwayRank>62</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>New Mexico Bowl</Name>
-      <LogoID>016</LogoID>
-      <DivisionID/>
-      <HomeRank>59</HomeRank>
-      <AwayRank>60</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Camellia Bowl</Name>
-      <LogoID>035</LogoID>
-      <DivisionID/>
-      <HomeRank>57</HomeRank>
-      <AwayRank>58</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Union Home Mortgage Gasparilla Bowl</Name>
-      <LogoID>030</LogoID>
-      <DivisionID/>
-      <HomeRank>55</HomeRank>
-      <AwayRank>56</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Cure Bowl</Name>
-      <LogoID>024</LogoID>
-      <DivisionID/>
-      <HomeRank>53</HomeRank>
-      <AwayRank>54</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>SERVPRO First Responder Bowl</Name>
-      <LogoID>027</LogoID>
-      <DivisionID/>
-      <HomeRank>51</HomeRank>
-      <AwayRank>52</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Radiance Technologies Independence Bowl</Name>
-      <LogoID>026</LogoID>
-      <DivisionID/>
-      <HomeRank>49</HomeRank>
-      <AwayRank>50</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Guaranteed Rate Bowl</Name>
-      <LogoID>036</LogoID>
-      <DivisionID/>
-      <HomeRank>47</HomeRank>
-      <AwayRank>48</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Military Bowl Presented by Perspecta</Name>
-      <LogoID>036</LogoID>
-      <DivisionID/>
-      <HomeRank>45</HomeRank>
-      <AwayRank>46</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Cheez-It Bowl</Name>
-      <LogoID>020</LogoID>
-      <DivisionID/>
-      <HomeRank>43</HomeRank>
-      <AwayRank>44</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Duke's Mayo Bowl</Name>
-      <LogoID>021</LogoID>
-      <DivisionID/>
-      <HomeRank>41</HomeRank>
-      <AwayRank>42</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>LA Bowl</Name>
-      <LogoID>022</LogoID>
-      <DivisionID/>
-      <HomeRank>39</HomeRank>
-      <AwayRank>40</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Arizona Bowl</Name>
-      <LogoID>034</LogoID>
-      <DivisionID/>
-      <HomeRank>37</HomeRank>
-      <AwayRank>38</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>AutoZone Liberty Bowl</Name>
-      <LogoID>011</LogoID>
-      <DivisionID/>
-      <HomeRank>35</HomeRank>
-      <AwayRank>36</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Texas Bowl</Name>
-      <LogoID>012</LogoID>
-      <DivisionID/>
-      <HomeRank>33</HomeRank>
-      <AwayRank>34</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>TicketSmarter Birmingham Bowl</Name>
-      <LogoID>032</LogoID>
-      <DivisionID/>
-      <HomeRank>31</HomeRank>
-      <AwayRank>32</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Tony The Tiger Sun Bowl</Name>
-      <LogoID>016</LogoID>
-      <DivisionID/>
-      <HomeRank>29</HomeRank>
-      <AwayRank>30</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Lockheed Martin Armed Forces Bowl</Name>
-      <LogoID>035</LogoID>
-      <DivisionID/>
-      <HomeRank>27</HomeRank>
-      <AwayRank>28</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>TransPerfect Music City Bowl</Name>
-      <LogoID>030</LogoID>
-      <DivisionID/>
-      <HomeRank>25</HomeRank>
-      <AwayRank>26</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>TaxSlayer Gator Bowl</Name>
-      <LogoID>024</LogoID>
-      <DivisionID/>
-      <HomeRank>23</HomeRank>
-      <AwayRank>24</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Academy Sports+Outdoors Texas Bowl</Name>
-      <LogoID>027</LogoID>
-      <DivisionID/>
-      <HomeRank>21</HomeRank>
-      <AwayRank>22</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>LendingTree Bowl</Name>
-      <LogoID>026</LogoID>
-      <DivisionID/>
-      <HomeRank>19</HomeRank>
-      <AwayRank>20</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Valero Alamo Bowl</Name>
-      <LogoID>029</LogoID>
-      <DivisionID/>
-      <HomeRank>17</HomeRank>
-      <AwayRank>18</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Outback Bowl</Name>
-      <LogoID>028</LogoID>
-      <DivisionID/>
-      <HomeRank>15</HomeRank>
-      <AwayRank>16</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>VRBO Citrus Bowl</Name>
-      <LogoID>007</LogoID>
-      <DivisionID/>
-      <HomeRank>13</HomeRank>
-      <AwayRank>14</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Goodyear Cotton Bowl Classic</Name>
-      <LogoID>003</LogoID>
-      <DivisionID/>
-      <HomeRank>11</HomeRank>
-      <AwayRank>12</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Chick-fil-A Peach Bowl</Name>
-      <LogoID>033</LogoID>
-      <DivisionID/>
-      <HomeRank>9</HomeRank>
-      <AwayRank>10</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Capital One Orange Bowl</Name>
-      <LogoID>005</LogoID>
-      <DivisionID/>
-      <HomeRank>7</HomeRank>
-      <AwayRank>8</AwayRank>
-    </Game>
-    <Game>
-      <IsAllStarGame>0</IsAllStarGame>
-      <Name>Playstation Fiesta Bowl</Name>
-      <LogoID>004</LogoID>
-      <DivisionID/>
-      <HomeRank>5</HomeRank>
-      <AwayRank>6</AwayRank>
-    </Game>
-  </BowlGames>
-  <PlayoffGames>
-    <Game>
-      <GameID>1</GameID>
-      <WeekID>1</WeekID>
-      <Name>College Football Playoff Semifinal at the Rose Bowl</Name>
-      <LogoID>001</LogoID>
-      <DivisionID/>
-      <HomeRank>1</HomeRank>
-      <AwayRank>4</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
-    <Game>
-      <GameID>2</GameID>
-      <WeekID>1</WeekID>
-      <Name>College Football Playoff Semifinal at the Sugar Bowl</Name>
-      <LogoID>001</LogoID>
-      <DivisionID/>
-      <HomeRank>2</HomeRank>
-      <AwayRank>3</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
-    <Game>
-      <GameID>3</GameID>
-      <WeekID>2</WeekID>
-      <Name>College Football Playoff National Championship</Name>
-      <LogoID>002</LogoID>
-      <DivisionID/>
-      <HomeRank/>
-      <AwayRank/>
-      <HomeWinnerGameID>1</HomeWinnerGameID>
-      <AwayWinnerGameID>2</AwayWinnerGameID>
-    </Game>
-  </PlayoffGames>
-  <ConferenceChampionshipGames>
-    <Game>
-      <GameID>1</GameID>
-      <WeekID>1</WeekID>
-      <Name>American Athletic Championship</Name>
-      <LogoID>037</LogoID>
-      <DivisionID>1</DivisionID>
-      <HomeRank>1</HomeRank>
-      <AwayRank>2</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><LeagueData>
+	<League ID="1">
+		<GAMESPERTEAM>12</GAMESPERTEAM>
+	</League>
+	<Divisions>
+		<Div1>
+			<Name>American Athletic Conference</Name>
+			<Rank>6</Rank>
+		</Div1>
+		<Div2>
+			<Name>Atlantic Coast Conference</Name>
+			<Rank>4</Rank>
+		</Div2>
+		<Div3>
+			<Name>Big 12 Conference</Name>
+			<Rank>1</Rank>
+		</Div3>
+		<Div4>
+			<Name>Big Ten Conference</Name>
+			<Rank>2</Rank>
+		</Div4>
+		<Div5>
+			<Name>Conference USA</Name>
+			<Rank>11</Rank>
+		</Div5>
+		<Div6>
+			<Name>FBS Independent</Name>
+			<Rank>7</Rank>
+		</Div6>
+		<Div7>
+			<Name>Mid-American Conference</Name>
+			<Rank>9</Rank>
+		</Div7>
+		<Div8>
+			<Name>Mountain West Conference</Name>
+			<Rank>8</Rank>
+		</Div8>
+		<Div9>
+			<Name>PAC-12 Conference</Name>
+			<Rank>5</Rank>
+		</Div9>
+		<Div10>
+			<Name>Southeastern Conference</Name>
+			<Rank>3</Rank>
+		</Div10>
+		<Div11>
+			<Name>Sun Belt Conference</Name>
+			<Rank>10</Rank>
+		</Div11></Divisions>
+	<BowlGames>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Tropical Smoothie Cafe Frisco Bowl</Name>
+			<LogoID>022</LogoID>
+			<DivisionID/>
+			<HomeRank>69</HomeRank>
+			<AwayRank>70</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Myrtle Beach Bowl</Name>
+			<LogoID>034</LogoID>
+			<DivisionID/>
+			<HomeRank>67</HomeRank>
+			<AwayRank>68</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Famous Idaho Potato Bowl</Name>
+			<LogoID>011</LogoID>
+			<DivisionID/>
+			<HomeRank>65</HomeRank>
+			<AwayRank>66</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>R+L Carriers New Orleans Bowl</Name>
+			<LogoID>012</LogoID>
+			<DivisionID/>
+			<HomeRank>63</HomeRank>
+			<AwayRank>64</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Montgomery Bowl</Name>
+			<LogoID>032</LogoID>
+			<DivisionID/>
+			<HomeRank>61</HomeRank>
+			<AwayRank>62</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>New Mexico Bowl</Name>
+			<LogoID>016</LogoID>
+			<DivisionID/>
+			<HomeRank>59</HomeRank>
+			<AwayRank>60</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Camellia Bowl</Name>
+			<LogoID>035</LogoID>
+			<DivisionID/>
+			<HomeRank>57</HomeRank>
+			<AwayRank>58</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Union Home Mortgage Gasparilla Bowl</Name>
+			<LogoID>030</LogoID>
+			<DivisionID/>
+			<HomeRank>55</HomeRank>
+			<AwayRank>56</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Cure Bowl</Name>
+			<LogoID>024</LogoID>
+			<DivisionID/>
+			<HomeRank>53</HomeRank>
+			<AwayRank>54</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>SERVPRO First Responder Bowl</Name>
+			<LogoID>027</LogoID>
+			<DivisionID/>
+			<HomeRank>51</HomeRank>
+			<AwayRank>52</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Radiance Technologies Independence Bowl</Name>
+			<LogoID>026</LogoID>
+			<DivisionID/>
+			<HomeRank>49</HomeRank>
+			<AwayRank>50</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Guaranteed Rate Bowl</Name>
+			<LogoID>036</LogoID>
+			<DivisionID/>
+			<HomeRank>47</HomeRank>
+			<AwayRank>48</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Military Bowl Presented by Perspecta</Name>
+			<LogoID>036</LogoID>
+			<DivisionID/>
+			<HomeRank>45</HomeRank>
+			<AwayRank>46</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Cheez-It Bowl</Name>
+			<LogoID>020</LogoID>
+			<DivisionID/>
+			<HomeRank>43</HomeRank>
+			<AwayRank>44</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Duke's Mayo Bowl</Name>
+			<LogoID>021</LogoID>
+			<DivisionID/>
+			<HomeRank>41</HomeRank>
+			<AwayRank>42</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>LA Bowl</Name>
+			<LogoID>022</LogoID>
+			<DivisionID/>
+			<HomeRank>39</HomeRank>
+			<AwayRank>40</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Arizona Bowl</Name>
+			<LogoID>034</LogoID>
+			<DivisionID/>
+			<HomeRank>37</HomeRank>
+			<AwayRank>38</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>AutoZone Liberty Bowl</Name>
+			<LogoID>011</LogoID>
+			<DivisionID/>
+			<HomeRank>35</HomeRank>
+			<AwayRank>36</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Texas Bowl</Name>
+			<LogoID>012</LogoID>
+			<DivisionID/>
+			<HomeRank>33</HomeRank>
+			<AwayRank>34</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>TicketSmarter Birmingham Bowl</Name>
+			<LogoID>032</LogoID>
+			<DivisionID/>
+			<HomeRank>31</HomeRank>
+			<AwayRank>32</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Tony The Tiger Sun Bowl</Name>
+			<LogoID>016</LogoID>
+			<DivisionID/>
+			<HomeRank>29</HomeRank>
+			<AwayRank>30</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Lockheed Martin Armed Forces Bowl</Name>
+			<LogoID>035</LogoID>
+			<DivisionID/>
+			<HomeRank>27</HomeRank>
+			<AwayRank>28</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>TransPerfect Music City Bowl</Name>
+			<LogoID>030</LogoID>
+			<DivisionID/>
+			<HomeRank>25</HomeRank>
+			<AwayRank>26</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>TaxSlayer Gator Bowl</Name>
+			<LogoID>024</LogoID>
+			<DivisionID/>
+			<HomeRank>23</HomeRank>
+			<AwayRank>24</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Academy Sports+Outdoors Texas Bowl</Name>
+			<LogoID>027</LogoID>
+			<DivisionID/>
+			<HomeRank>21</HomeRank>
+			<AwayRank>22</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>LendingTree Bowl</Name>
+			<LogoID>026</LogoID>
+			<DivisionID/>
+			<HomeRank>19</HomeRank>
+			<AwayRank>20</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Valero Alamo Bowl</Name>
+			<LogoID>029</LogoID>
+			<DivisionID/>
+			<HomeRank>17</HomeRank>
+			<AwayRank>18</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Outback Bowl</Name>
+			<LogoID>028</LogoID>
+			<DivisionID/>
+			<HomeRank>15</HomeRank>
+			<AwayRank>16</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>VRBO Citrus Bowl</Name>
+			<LogoID>007</LogoID>
+			<DivisionID/>
+			<HomeRank>13</HomeRank>
+			<AwayRank>14</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Goodyear Cotton Bowl Classic</Name>
+			<LogoID>003</LogoID>
+			<DivisionID/>
+			<HomeRank>11</HomeRank>
+			<AwayRank>12</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Chick-fil-A Peach Bowl</Name>
+			<LogoID>033</LogoID>
+			<DivisionID/>
+			<HomeRank>9</HomeRank>
+			<AwayRank>10</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Capital One Orange Bowl</Name>
+			<LogoID>005</LogoID>
+			<DivisionID/>
+			<HomeRank>7</HomeRank>
+			<AwayRank>8</AwayRank>
+		</Game>
+		<Game>
+			<IsAllStarGame>0</IsAllStarGame>
+			<Name>Playstation Fiesta Bowl</Name>
+			<LogoID>004</LogoID>
+			<DivisionID/>
+			<HomeRank>5</HomeRank>
+			<AwayRank>6</AwayRank>
+		</Game>
+	</BowlGames>
+	<PlayoffGames>
+		<Game>
+			<GameID>1</GameID>
+			<WeekID>1</WeekID>
+			<Name>College Football Playoff Semifinal at the Rose Bowl</Name>
+			<LogoID>001</LogoID>
+			<DivisionID/>
+			<HomeRank>1</HomeRank>
+			<AwayRank>4</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
+		<Game>
+			<GameID>2</GameID>
+			<WeekID>1</WeekID>
+			<Name>College Football Playoff Semifinal at the Sugar Bowl</Name>
+			<LogoID>001</LogoID>
+			<DivisionID/>
+			<HomeRank>2</HomeRank>
+			<AwayRank>3</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
+		<Game>
+			<GameID>3</GameID>
+			<WeekID>2</WeekID>
+			<Name>College Football Playoff National Championship</Name>
+			<LogoID>002</LogoID>
+			<DivisionID/>
+			<HomeRank/>
+			<AwayRank/>
+			<HomeWinnerGameID>1</HomeWinnerGameID>
+			<AwayWinnerGameID>2</AwayWinnerGameID>
+		</Game>
+	</PlayoffGames>
+	<ConferenceChampionshipGames>
+		<Game>
+			<GameID>1</GameID>
+			<WeekID>1</WeekID>
+			<Name>American Athletic Championship</Name>
+			<LogoID>037</LogoID>
+			<DivisionID>1</DivisionID>
+			<HomeRank>1</HomeRank>
+			<AwayRank>2</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
 
-    <Game>
-      <GameID>2</GameID>
-      <WeekID>1</WeekID>
-      <Name>Atlantic Coast Conference Championship</Name>
-      <LogoID>038</LogoID>
-      <DivisionID>2</DivisionID>
-      <HomeRank>1</HomeRank>
-      <AwayRank>2</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
-    <Game>
-      <GameID>3</GameID>
-      <WeekID>1</WeekID>
-      <Name>Big 12 Conference Championship</Name>
-      <LogoID>039</LogoID>
-      <DivisionID>3</DivisionID>
-      <HomeRank>1</HomeRank>
-      <AwayRank>2</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
-    <Game>
-      <GameID>4</GameID>
-      <WeekID>1</WeekID>
-      <Name>Big Ten Conference Championship</Name>
-      <LogoID>040</LogoID>
-      <DivisionID>4</DivisionID>
-      <HomeRank>1</HomeRank>
-      <AwayRank>2</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
-    <Game>
-      <GameID>5</GameID>
-      <WeekID>1</WeekID>
-      <Name>Conference USA Championship</Name>
-      <LogoID>041</LogoID>
-      <DivisionID>5</DivisionID>
-      <HomeRank>1</HomeRank>
-      <AwayRank>2</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
-    <Game>
-      <GameID>6</GameID>
-      <WeekID>1</WeekID>
-      <Name>Mid-American Conference Championship</Name>
-      <LogoID>042</LogoID>
-      <DivisionID>7</DivisionID>
-      <HomeRank>1</HomeRank>
-      <AwayRank>2</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
-    <Game>
-      <GameID>7</GameID>
-      <WeekID>1</WeekID>
-      <Name>Mountain West Conference Championship</Name>
-      <LogoID>043</LogoID>
-      <DivisionID>8</DivisionID>
-      <HomeRank>1</HomeRank>
-      <AwayRank>2</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
-    <Game>
-      <GameID>8</GameID>
-      <WeekID>1</WeekID>
-      <Name>PAC-12 Conference Championship</Name>
-      <LogoID>044</LogoID>
-      <DivisionID>9</DivisionID>
-      <HomeRank>1</HomeRank>
-      <AwayRank>2</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-s
-    </Game>
-    <Game>
-      <GameID>9</GameID>
-      <WeekID>1</WeekID>
-      <Name>Southeastern Conference Championship</Name>
-      <LogoID>045</LogoID>
-      <DivisionID>10</DivisionID>
-      <HomeRank>1</HomeRank>
-      <AwayRank>2</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
-    <Game>
-      <GameID>10</GameID>
-      <WeekID>1</WeekID>
-      <Name>Sun Belt Conference Championship</Name>
-      <LogoID>046</LogoID>
-      <DivisionID>11</DivisionID>
-      <HomeRank>1</HomeRank>
-      <AwayRank>2</AwayRank>
-      <HomeWinnerGameID/>
-      <AwayWinnerGameID/>
-    </Game>
-  </ConferenceChampionshipGames>
+		<Game>
+			<GameID>2</GameID>
+			<WeekID>1</WeekID>
+			<Name>Atlantic Coast Conference Championship</Name>
+			<LogoID>038</LogoID>
+			<DivisionID>2</DivisionID>
+			<HomeRank>1</HomeRank>
+			<AwayRank>2</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
+		<Game>
+			<GameID>3</GameID>
+			<WeekID>1</WeekID>
+			<Name>Big 12 Conference Championship</Name>
+			<LogoID>039</LogoID>
+			<DivisionID>3</DivisionID>
+			<HomeRank>1</HomeRank>
+			<AwayRank>2</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
+		<Game>
+			<GameID>4</GameID>
+			<WeekID>1</WeekID>
+			<Name>Big Ten Conference Championship</Name>
+			<LogoID>040</LogoID>
+			<DivisionID>4</DivisionID>
+			<HomeRank>1</HomeRank>
+			<AwayRank>2</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
+		<Game>
+			<GameID>5</GameID>
+			<WeekID>1</WeekID>
+			<Name>Conference USA Championship</Name>
+			<LogoID>041</LogoID>
+			<DivisionID>5</DivisionID>
+			<HomeRank>1</HomeRank>
+			<AwayRank>2</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
+		<Game>
+			<GameID>6</GameID>
+			<WeekID>1</WeekID>
+			<Name>Mid-American Conference Championship</Name>
+			<LogoID>042</LogoID>
+			<DivisionID>7</DivisionID>
+			<HomeRank>1</HomeRank>
+			<AwayRank>2</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
+		<Game>
+			<GameID>7</GameID>
+			<WeekID>1</WeekID>
+			<Name>Mountain West Conference Championship</Name>
+			<LogoID>043</LogoID>
+			<DivisionID>8</DivisionID>
+			<HomeRank>1</HomeRank>
+			<AwayRank>2</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
+		<Game>
+			<GameID>8</GameID>
+			<WeekID>1</WeekID>
+			<Name>PAC-12 Conference Championship</Name>
+			<LogoID>044</LogoID>
+			<DivisionID>9</DivisionID>
+			<HomeRank>1</HomeRank>
+			<AwayRank>2</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+			s
+		</Game>
+		<Game>
+			<GameID>9</GameID>
+			<WeekID>1</WeekID>
+			<Name>Southeastern Conference Championship</Name>
+			<LogoID>045</LogoID>
+			<DivisionID>10</DivisionID>
+			<HomeRank>1</HomeRank>
+			<AwayRank>2</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
+		<Game>
+			<GameID>10</GameID>
+			<WeekID>1</WeekID>
+			<Name>Sun Belt Conference Championship</Name>
+			<LogoID>046</LogoID>
+			<DivisionID>11</DivisionID>
+			<HomeRank>1</HomeRank>
+			<AwayRank>2</AwayRank>
+			<HomeWinnerGameID/>
+			<AwayWinnerGameID/>
+		</Game>
+	</ConferenceChampionshipGames>
 </LeagueData>

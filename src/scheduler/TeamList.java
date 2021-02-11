@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -61,16 +62,25 @@ public class TeamList {
 				File leaguexml = new File(foldername + "/" + filename);
 				try {
 					Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(leaguexml);
-					int j = 1;
 					ArrayList<Conference> conferencelist = new ArrayList<Conference>();
-					conferencelist.add(null);
-					while (doc.getElementsByTagName("Div" + j).item(0) != null) {
-						String conferencename = doc.getElementsByTagName("Div" + j).item(0).getChildNodes().item(1)
-								.getTextContent();
-						conferencelist.add(j, new Conference(j, conferencename));
-						conferencelist.get(j).setRank(Integer.parseInt(
-								doc.getElementsByTagName("Div" + j).item(0).getChildNodes().item(3).getTextContent()));
-						j++;
+					conferencelist.add(new Conference(0, ""));
+					for (int j = 1; j < 12; j++) {
+						if (doc.getElementsByTagName("Div" + j).item(0) != null) {
+							String conferencename = doc.getElementsByTagName("Div" + j).item(0).getChildNodes().item(1)
+									.getTextContent();
+							conferencelist.add(new Conference(conferencelist.size(), conferencename));
+							conferencelist.get(conferencelist.size() - 1).setRank(Integer.parseInt(doc
+									.getElementsByTagName("Div" + j).item(0).getChildNodes().item(3).getTextContent()));
+						}
+					}
+					if (doc.getElementsByTagName("Div").item(0) != null) {
+						for (int j = 0; j < doc.getElementsByTagName("Div").getLength(); j++) {
+							String conferencename = doc.getElementsByTagName("Div").item(j).getChildNodes().item(1)
+									.getTextContent();
+							conferencelist.add(new Conference(conferencelist.size(), conferencename));
+							conferencelist.get(conferencelist.size() - 1).setRank(Integer.parseInt(
+									doc.getElementsByTagName("Div").item(j).getChildNodes().item(3).getTextContent()));
+						}
 					}
 					conferences = new Conference[conferencelist.size()];
 					for (int k = 0; k < conferences.length; k++) {
@@ -106,8 +116,8 @@ public class TeamList {
 			try {
 				Scanner scanner = new Scanner(data);
 				int counter = 1;
-				while(scanner.hasNextInt()) {
-					if(counter <= conferences.length+1) {
+				while (scanner.hasNextInt()) {
+					if (counter <= conferences.length + 1) {
 						if (scanner.nextInt() == 1) {
 							conferences[counter].setPower(true);
 						} else {
@@ -125,6 +135,12 @@ public class TeamList {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	class Sortbyconferencename implements Comparator<Conference> {
+		public int compare(Conference a, Conference b) {
+			return a.toString().compareTo(b.toString());
 		}
 	}
 
