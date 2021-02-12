@@ -46,7 +46,8 @@
 		<Div11>
 			<Name>Sun Belt Conference</Name>
 			<Rank>10</Rank>
-		</Div11></Divisions>
+		</Div11>
+	</Divisions>
 	<BowlGames>
 		<Game>
 			<IsAllStarGame>0</IsAllStarGame>
@@ -406,7 +407,7 @@
 			<AwayWinnerGameID/>
 		</Game>
 		<Game>
-			<GameID>6</GameID>
+			<GameID>7</GameID>
 			<WeekID>1</WeekID>
 			<Name>Mid-American Conference Championship</Name>
 			<LogoID>042</LogoID>
@@ -417,10 +418,10 @@
 			<AwayWinnerGameID/>
 		</Game>
 		<Game>
-			<GameID>7</GameID>
+			<GameID>8</GameID>
 			<WeekID>1</WeekID>
 			<Name>Mountain West Conference Championship</Name>
-			<LogoID>043</LogoID>
+			<LogoID>207</LogoID>
 			<DivisionID>8</DivisionID>
 			<HomeRank>1</HomeRank>
 			<AwayRank>2</AwayRank>
@@ -428,7 +429,7 @@
 			<AwayWinnerGameID/>
 		</Game>
 		<Game>
-			<GameID>8</GameID>
+			<GameID>9</GameID>
 			<WeekID>1</WeekID>
 			<Name>PAC-12 Conference Championship</Name>
 			<LogoID>044</LogoID>
@@ -437,10 +438,9 @@
 			<AwayRank>2</AwayRank>
 			<HomeWinnerGameID/>
 			<AwayWinnerGameID/>
-			s
 		</Game>
 		<Game>
-			<GameID>9</GameID>
+			<GameID>10</GameID>
 			<WeekID>1</WeekID>
 			<Name>Southeastern Conference Championship</Name>
 			<LogoID>045</LogoID>
@@ -451,7 +451,7 @@
 			<AwayWinnerGameID/>
 		</Game>
 		<Game>
-			<GameID>10</GameID>
+			<GameID>11</GameID>
 			<WeekID>1</WeekID>
 			<Name>Sun Belt Conference Championship</Name>
 			<LogoID>046</LogoID>
@@ -461,5 +461,5 @@
 			<HomeWinnerGameID/>
 			<AwayWinnerGameID/>
 		</Game>
-	</ConferenceChampionshipGames>
+</ConferenceChampionshipGames>
 </LeagueData>

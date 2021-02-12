@@ -7,8 +7,16 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -17,6 +25,7 @@ public class TeamList {
 
 	Team[] teams;
 	Conference[] conferences;
+	Bowl[] championships;
 
 	// get list of teams and conferences
 	public TeamList(int numteams) {
@@ -86,6 +95,43 @@ public class TeamList {
 					for (int k = 0; k < conferences.length; k++) {
 						conferences[k] = conferencelist.get(k);
 					}
+					if (teams.length > 40) {
+						championships = new Bowl[conferencelist.size()];
+						for (int k = 0; k < doc.getElementsByTagName("ConferenceChampionshipGames").item(0)
+								.getChildNodes().getLength(); k++) {
+							if (doc.getElementsByTagName("ConferenceChampionshipGames").item(0).getChildNodes().item(k)
+									.getChildNodes().getLength() > 0) {
+								int conferencenum = Integer
+										.parseInt(doc.getElementsByTagName("ConferenceChampionshipGames").item(0)
+												.getChildNodes().item(k).getChildNodes().item(9).getTextContent());
+								String champname = doc.getElementsByTagName("ConferenceChampionshipGames").item(0)
+										.getChildNodes().item(k).getChildNodes().item(5).getTextContent();
+								if (conferencenum != Integer
+										.parseInt(doc.getElementsByTagName("ConferenceChampionshipGames").item(0)
+												.getChildNodes().item(k).getChildNodes().item(1).getTextContent())) {
+									doc.getElementsByTagName("ConferenceChampionshipGames").item(0).getChildNodes()
+											.item(k).getChildNodes().item(1).setTextContent("" + conferencenum);
+								}
+								championships[conferencenum] = new Bowl(conferences[conferencenum], champname);
+								TransformerFactory transformerFactory = TransformerFactory.newInstance();
+								Transformer transformer;
+								try {
+									transformer = transformerFactory.newTransformer();
+									DOMSource source = new DOMSource(doc);
+									StreamResult result = new StreamResult(new File(leaguexml.getPath()));
+									try {
+										transformer.transform(source, result);
+									} catch (TransformerException te) {
+										// TODO Auto-generated catch block
+										te.printStackTrace();
+									}
+								} catch (TransformerConfigurationException tce) {
+									// TODO Auto-generated catch block
+									tce.printStackTrace();
+								}
+							}
+						}
+					}
 				} catch (SAXException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -137,7 +183,7 @@ public class TeamList {
 			}
 		}
 	}
-	
+
 	class Sortbyconferencename implements Comparator<Conference> {
 		public int compare(Conference a, Conference b) {
 			return a.toString().compareTo(b.toString());

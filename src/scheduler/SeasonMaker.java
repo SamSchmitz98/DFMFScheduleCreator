@@ -13,7 +13,7 @@ public class SeasonMaker {
 	int retryflag1;
 	String schedulestring;
 	String error;
-	Random random = new Random(1);
+	Random random = new Random();
 	Team[] teams;
 	Conference[] conferences;
 	int[] nonconcount;
@@ -375,15 +375,6 @@ public class SeasonMaker {
 		}
 		addByeWeeks();
 		printSchedule();
-		for (int i = 1; i < conferences.length; i++) {
-			int total = 0;
-			for (int j = 0; j < conferences[i].size(); j++) {
-				if (schedule[3][conferences[i].getTeam(j).getID()] == null) {
-					total++;
-				}
-			}
-			System.out.println(conferences[i] + " " + total);
-		}
 		if (confweeks != 0) {
 			for (int i = 1; i < conferences.length; i++) { // for each conference
 				int count = 0;

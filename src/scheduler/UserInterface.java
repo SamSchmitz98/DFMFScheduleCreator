@@ -50,6 +50,7 @@ public class UserInterface extends JFrame implements ActionListener {
 	TeamList teamlist27, teamlist32, teamlist130;
 	Team[] teams27, teams32, teams130;
 	Conference[] conferences27, conferences32, conferences130;
+	Bowl[] championships27, championships32, championships130;
 
 	JPanel schedulepanel, conferencesettingspanel, conferencecreationpanel, helppanel;
 	JRadioButton teams27rb, teams32rb, teams130rb;
@@ -83,6 +84,7 @@ public class UserInterface extends JFrame implements ActionListener {
 		conferences27 = teamlist27.conferences;
 		conferences32 = teamlist32.conferences;
 		conferences130 = teamlist130.conferences;
+		championships130 = teamlist130.championships;
 		/////////////////////
 		// Schedule Panel
 		/////////////////////
@@ -176,6 +178,8 @@ public class UserInterface extends JFrame implements ActionListener {
 		JRadioButton independent = new JRadioButton("Independent");
 		JButton updateconference = new JButton("Update");
 		JButton deleteconference = new JButton("Delete Conference");
+		powerconference.setSelected(conferences130[1].isPower());
+		independent.setSelected(conferences130[1].isIndependent());
 		conferencename.setBounds(10, 50, 236, 20);
 		conferencerankspinner.setBounds(115, 73, 35, 24);
 		conferenceranklabel.setBounds(10, 80, 100, 10);
@@ -191,11 +195,12 @@ public class UserInterface extends JFrame implements ActionListener {
 		conferencesettingspanel.add(updateconference);
 		conferencesettingspanel.add(deleteconference);
 		// Conference Championship
-		JRadioButton championship = new JRadioButton("Conference Chamionship");
-		JTextField championshiptitle = new JTextField("American Athletic Conference Championship");
+		JRadioButton championship = new JRadioButton("Conference Championship");
+		JTextField championshiptitle = new JTextField(championships130[1].toString());
 		JButton championshiplogo = new JButton("Upload Logo");
 		JButton championshiplogodefault = new JButton("Default");
 		JButton championshipupdate = new JButton("Update Championship");
+		championship.setSelected(championships130[1] != null);
 		championship.setBounds(335, 215, 200, 25);
 		championshiptitle.setBounds(335, 240, 236, 20);
 		championshiplogo.setBounds(335, 260, 125, 20);
@@ -483,6 +488,14 @@ public class UserInterface extends JFrame implements ActionListener {
 				Conference curconf = (Conference) conferences.getSelectedItem();
 				powerconference.setSelected(curconf.isPower());
 				independent.setSelected(curconf.isIndependent());
+				championship.setSelected(championships130[curconf.getID()] != null);
+				if (championships130[curconf.getID()] != null) {
+					championshiptitle.setText(championships130[curconf.getID()].toString());
+					championshiptitle.setEnabled(true);
+				} else {
+					championshiptitle.setText("");
+					championshiptitle.setEnabled(false);
+				}
 				toconferencemembers.removeAllItems();
 				for (int i = 0; i < curconf.size(); i++) {
 					toconferencemembers.addItem(curconf.getTeam(i));
@@ -590,13 +603,14 @@ public class UserInterface extends JFrame implements ActionListener {
 							StreamResult result = new StreamResult(new File(f.getPath()));
 							try {
 								transformer.transform(source, result);
+								updateTeams();
 							} catch (TransformerException te) {
-								// TODO Auto-generated catch block
-								te.printStackTrace();
+								JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+								return;
 							}
 						} catch (TransformerConfigurationException tce) {
-							// TODO Auto-generated catch block
-							tce.printStackTrace();
+							JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+							return;
 						}
 					} catch (SAXException | IOException | ParserConfigurationException e1) {
 						JOptionPane.showMessageDialog(new JFrame(), "Error saving conference member changes");
@@ -656,13 +670,14 @@ public class UserInterface extends JFrame implements ActionListener {
 							StreamResult result = new StreamResult(new File(f.getPath()));
 							try {
 								transformer.transform(source, result);
+								updateTeams();
 							} catch (TransformerException te) {
-								// TODO Auto-generated catch block
-								te.printStackTrace();
+								JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+								return;
 							}
 						} catch (TransformerConfigurationException tce) {
-							// TODO Auto-generated catch block
-							tce.printStackTrace();
+							JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+							return;
 						}
 					} catch (SAXException | IOException | ParserConfigurationException e1) {
 						JOptionPane.showMessageDialog(new JFrame(), "Error saving conference member changes");
@@ -671,6 +686,12 @@ public class UserInterface extends JFrame implements ActionListener {
 				} else {
 					JOptionPane.showMessageDialog(new JFrame(), "No team selected to send");
 				}
+			}
+		});
+
+		championship.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				championshiptitle.setEnabled(championship.isSelected());
 			}
 		});
 
@@ -688,6 +709,156 @@ public class UserInterface extends JFrame implements ActionListener {
 
 		championshipupdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (teams32rb.isSelected()) {
+					JOptionPane.showMessageDialog(new JFrame(), "Functionality not implemented yet for league size 32");
+					return;
+				}
+				try {
+					Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+							.parse("Teams0130/leaguesettings.xml");
+					if (championship.isSelected()
+							&& championships130[((Conference) conferences.getSelectedItem()).getID()] == null) {
+						if (championshiptitle.getText() == "") {
+							JOptionPane.showMessageDialog(new JFrame(), "Championship must have name");
+							return;
+						}
+						championships130[((Conference) conferences.getSelectedItem()).getID()] = new Bowl((Conference) conferences.getSelectedItem(), championshiptitle.getText());
+						Element gamenode = doc.createElement("Game");
+						Element gameidnode = doc.createElement("GameID");
+						gameidnode.setTextContent(((Conference) conferences.getSelectedItem()).getID() + "");
+						Element weekidnode = doc.createElement("WeekID");
+						weekidnode.setTextContent("1");
+						Element namenode = doc.createElement("Name");
+						namenode.setTextContent(championshiptitle.getText());
+						Element logoidnode = doc.createElement("LogoID");
+						logoidnode.setTextContent("");
+						Element divisionidnode = doc.createElement("DivisionID");
+						divisionidnode.setTextContent(((Conference) conferences.getSelectedItem()).getID() + "");
+						Element homeranknode = doc.createElement("HomeRank");
+						homeranknode.setTextContent("1");
+						Element awayranknode = doc.createElement("AwayRank");
+						awayranknode.setTextContent("2");
+						Element homewinnergameidnode = doc.createElement("HomeWinnerGameID");
+						homewinnergameidnode.setTextContent("");
+						Element awaywinnergameidnode = doc.createElement("AwayWinnerGameID");
+						awaywinnergameidnode.setTextContent("");
+						gamenode.appendChild(doc.createTextNode("\n"));
+						gamenode.appendChild(gameidnode);
+						gamenode.appendChild(doc.createTextNode("\n"));
+						gamenode.appendChild(weekidnode);
+						gamenode.appendChild(doc.createTextNode("\n"));
+						gamenode.appendChild(namenode);
+						gamenode.appendChild(doc.createTextNode("\n"));
+						gamenode.appendChild(logoidnode);
+						gamenode.appendChild(doc.createTextNode("\n"));
+						gamenode.appendChild(divisionidnode);
+						gamenode.appendChild(doc.createTextNode("\n"));
+						gamenode.appendChild(homeranknode);
+						gamenode.appendChild(doc.createTextNode("\n"));
+						gamenode.appendChild(awayranknode);
+						gamenode.appendChild(doc.createTextNode("\n"));
+						gamenode.appendChild(homewinnergameidnode);
+						gamenode.appendChild(doc.createTextNode("\n"));
+						gamenode.appendChild(awaywinnergameidnode);
+						gamenode.appendChild(doc.createTextNode("\n"));
+						doc.getElementsByTagName("ConferenceChampionshipGames").item(0).appendChild(gamenode);
+						doc.getElementsByTagName("ConferenceChampionshipGames").item(0).appendChild(doc.createTextNode("\n"));
+						doc.normalize();
+						TransformerFactory transformerFactory = TransformerFactory.newInstance();
+						Transformer transformer;
+						try {
+							transformer = transformerFactory.newTransformer();
+							DOMSource source = new DOMSource(doc);
+							StreamResult result = new StreamResult(
+									new File("Teams0130/leaguesettings.xml"));
+							try {
+								transformer.transform(source, result);
+								JOptionPane.showMessageDialog(new JFrame(), "Conference Championship Added");
+								return;
+							} catch (TransformerException te) {
+								JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+								return;
+							}
+						} catch (TransformerConfigurationException tce) {
+							JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+							return;
+						}
+					} else if (!championship.isSelected()
+							&& championships130[((Conference) conferences.getSelectedItem()).getID()] != null) {
+						for (int k = 0; k < doc.getElementsByTagName("ConferenceChampionshipGames").item(0)
+								.getChildNodes().getLength(); k++) {
+							if (doc.getElementsByTagName("ConferenceChampionshipGames").item(0).getChildNodes().item(k)
+									.getChildNodes().getLength() > 0) {
+								int conferencenum = Integer
+										.parseInt(doc.getElementsByTagName("ConferenceChampionshipGames").item(0)
+												.getChildNodes().item(k).getChildNodes().item(9).getTextContent());
+								if (conferencenum == ((Conference) conferences.getSelectedItem()).getID()) {
+									Element elem = (Element) doc.getElementsByTagName("ConferenceChampionshipGames")
+											.item(0).getChildNodes().item(k);
+									elem.getParentNode().removeChild(elem);
+									TransformerFactory transformerFactory = TransformerFactory.newInstance();
+									Transformer transformer;
+									try {
+										transformer = transformerFactory.newTransformer();
+										DOMSource source = new DOMSource(doc);
+										StreamResult result = new StreamResult(
+												new File("Teams0130/leaguesettings.xml"));
+										try {
+											transformer.transform(source, result);
+											championships130[conferencenum] = null;
+											JOptionPane.showMessageDialog(new JFrame(), "Conference Championship Removed");
+											return;
+										} catch (TransformerException te) {
+											JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+											return;
+										}
+									} catch (TransformerConfigurationException tce) {
+										JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+										return;
+									}
+								}
+							}
+						}
+					} else if (championship.isSelected()
+							&& championships130[((Conference) conferences.getSelectedItem()).getID()] != null) {
+						for (int k = 0; k < doc.getElementsByTagName("ConferenceChampionshipGames").item(0)
+								.getChildNodes().getLength(); k++) {
+							if (doc.getElementsByTagName("ConferenceChampionshipGames").item(0).getChildNodes().item(k)
+									.getChildNodes().getLength() > 0) {
+								int conferencenum = Integer
+										.parseInt(doc.getElementsByTagName("ConferenceChampionshipGames").item(0)
+												.getChildNodes().item(k).getChildNodes().item(9).getTextContent());
+								if (conferencenum == ((Conference) conferences.getSelectedItem()).getID()) {
+									doc.getElementsByTagName("ConferenceChampionshipGames").item(0)
+									.getChildNodes().item(k).getChildNodes().item(5).setTextContent(championshiptitle.getText());
+									TransformerFactory transformerFactory = TransformerFactory.newInstance();
+									Transformer transformer;
+									try {
+										transformer = transformerFactory.newTransformer();
+										DOMSource source = new DOMSource(doc);
+										StreamResult result = new StreamResult(
+												new File("Teams0130/leaguesettings.xml"));
+										try {
+											transformer.transform(source, result);
+											championships130[conferencenum].setName(championshiptitle.getText());
+											JOptionPane.showMessageDialog(new JFrame(), "Conference Championship Updated");
+											return;
+										} catch (TransformerException te) {
+											JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+											return;
+										}
+									} catch (TransformerConfigurationException tce) {
+										JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+										return;
+									}
+								}
+							}
+						}
+					}
+				} catch (SAXException | IOException | ParserConfigurationException e1) {
+					JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+					return;
+				}
 				JOptionPane.showMessageDialog(new JFrame(), "Functionality not implemented yet");
 			}
 		});
@@ -695,16 +866,12 @@ public class UserInterface extends JFrame implements ActionListener {
 		createbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File f;
-				int numcon;
 				if (teams27rb.isSelected()) {
 					f = new File("Teams0027/leaguesettings.xml");
-					numcon = conferences27.length;
 				} else if (teams32rb.isSelected()) {
 					f = new File("Teams0032/leaguesettings.xml");
-					numcon = conferences32.length;
 				} else {
 					f = new File("Teams0130/leaguesettings.xml");
-					numcon = conferences130.length;
 				}
 				try {
 					Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
@@ -731,36 +898,28 @@ public class UserInterface extends JFrame implements ActionListener {
 						try {
 							transformer.transform(source, result);
 						} catch (TransformerException te) {
-							// TODO Auto-generated catch block
-							te.printStackTrace();
+							JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+							return;
 						}
 					} catch (TransformerConfigurationException tce) {
-						// TODO Auto-generated catch block
-						tce.printStackTrace();
+						JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+						return;
 					}
 				} catch (SAXException | IOException | ParserConfigurationException e1) {
 					JOptionPane.showMessageDialog(new JFrame(), "Error opening leaguesettings.xml");
 					e1.printStackTrace();
 					return;
 				}
+				updateTeams();
 				if (teams27rb.isSelected()) {
-					teamlist27 = new TeamList(27);
-					teams27 = teamlist27.teams;
-					conferences27 = teamlist27.conferences;
 					conferences.addItem(conferences27[conferences27.length - 1]);
 					toconferences.addItem(conferences27[conferences27.length - 1]);
 					fromconferences.addItem(conferences27[conferences27.length - 1]);
 				} else if (teams32rb.isSelected()) {
-					teamlist32 = new TeamList(32);
-					teams32 = teamlist32.teams;
-					conferences32 = teamlist32.conferences;
 					conferences.addItem(conferences32[conferences32.length - 1]);
 					toconferences.addItem(conferences32[conferences32.length - 1]);
 					fromconferences.addItem(conferences32[conferences32.length - 1]);
 				} else {
-					teamlist130 = new TeamList(130);
-					teams130 = teamlist130.teams;
-					conferences130 = teamlist130.conferences;
 					conferences.addItem(conferences130[conferences130.length - 1]);
 					toconferences.addItem(conferences130[conferences130.length - 1]);
 					fromconferences.addItem(conferences130[conferences130.length - 1]);
@@ -778,8 +937,8 @@ public class UserInterface extends JFrame implements ActionListener {
 					fw.write("0 0\n");
 					fw.close();
 				} catch (IOException ioe) {
-					// TODO Auto-generated catch block
-					ioe.printStackTrace();
+					JOptionPane.showMessageDialog(new JFrame(), "Failed to open " + data.getPath());
+					return;
 				}
 				JOptionPane.showMessageDialog(new JFrame(), "Conference Created");
 			}
@@ -895,7 +1054,7 @@ public class UserInterface extends JFrame implements ActionListener {
 					} catch (IOException exc) {
 
 					}
-					for (int i = 0; i < teams.length; i++) {
+					for (int i = 1; i < teams.length; i++) {
 						teams[i].setHasMatchup(false);
 					}
 					JOptionPane.showMessageDialog(new JFrame(), "Schedule Created");
@@ -937,9 +1096,9 @@ public class UserInterface extends JFrame implements ActionListener {
 			while (doc.getElementsByTagName("Div" + premade).getLength() != 0) {
 				premade++;
 			}
-			doc.getElementsByTagName("Div").item(curconf.getID()-premade).getChildNodes().item(1)
+			doc.getElementsByTagName("Div").item(curconf.getID() - premade).getChildNodes().item(1)
 					.setTextContent(curconf.getName());
-			doc.getElementsByTagName("Div").item(curconf.getID()-premade).getChildNodes().item(3)
+			doc.getElementsByTagName("Div").item(curconf.getID() - premade).getChildNodes().item(3)
 					.setTextContent(curconf.getRank() + "");
 		}
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -951,12 +1110,12 @@ public class UserInterface extends JFrame implements ActionListener {
 			try {
 				transformer.transform(source, result);
 			} catch (TransformerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+				return false;
 			}
 		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+			return false;
 		}
 		File data = new File(foldername + "/CustomConferenceData");
 		String contents = "";
@@ -1013,14 +1172,15 @@ public class UserInterface extends JFrame implements ActionListener {
 			return false;
 		}
 		if (doc.getElementsByTagName("Div" + curconf.getID()).getLength() != 0) {
-			JOptionPane.showMessageDialog(new JFrame(), "Cannot delete base conference (but it can just be left empty)");
+			JOptionPane.showMessageDialog(new JFrame(),
+					"Cannot delete base conference (but it can just be left empty)");
 			return false;
 		} else {
 			int premade = 1;
 			while (doc.getElementsByTagName("Div" + premade).getLength() != 0) {
 				premade++;
 			}
-			Element element = (Element) doc.getElementsByTagName("Div").item(curconf.getID()-premade);
+			Element element = (Element) doc.getElementsByTagName("Div").item(curconf.getID() - premade);
 			element.getParentNode().removeChild(element);
 			doc.normalize();
 		}
@@ -1033,13 +1193,14 @@ public class UserInterface extends JFrame implements ActionListener {
 			try {
 				transformer.transform(source, result);
 			} catch (TransformerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+				return false;
 			}
 		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}File data = new File(foldername + "/CustomConferenceData");
+			JOptionPane.showMessageDialog(new JFrame(), "Something happened while writing changes");
+			return false;
+		}
+		File data = new File(foldername + "/CustomConferenceData");
 		String contents = "";
 		int counter = 1;
 		Scanner scanner;
@@ -1069,25 +1230,25 @@ public class UserInterface extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(new JFrame(), "Error Opening " + foldername + "/CustomConferenceData");
 			e.printStackTrace();
 		}
-		if (teams27rb.isSelected()) {
-			teamlist27 = new TeamList(27);
-			teams27 = teamlist27.teams;
-			conferences27 = teamlist27.conferences;
-		} else if (teams32rb.isSelected()) {
-			teamlist32 = new TeamList(32);
-			teams32 = teamlist32.teams;
-			conferences32 = teamlist32.conferences;
-		} else {
-			teamlist130 = new TeamList(130);
-			teams130 = teamlist130.teams;
-			conferences130 = teamlist130.conferences;
-		}
+		updateTeams();
 		return true;
 	}
-	
+
+	void updateTeams() {
+		teamlist27 = new TeamList(27);
+		teamlist32 = new TeamList(32);
+		teamlist130 = new TeamList(130);
+		teams27 = teamlist27.teams;
+		teams32 = teamlist32.teams;
+		teams130 = teamlist130.teams;
+		conferences27 = teamlist27.conferences;
+		conferences32 = teamlist32.conferences;
+		conferences130 = teamlist130.conferences;
+		championships130 = teamlist130.championships;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
